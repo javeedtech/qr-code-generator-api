@@ -148,10 +148,18 @@ function buildRequestData(type) {
         case 'url':
             requestData.url = document.getElementById('urlInput').value || 'https://northflank.com';
             requestData.options.size = parseInt(document.getElementById('urlSize').value) || 10;
+            const urlForegroundColor = document.getElementById('urlForegroundColor');
+            if (urlForegroundColor) {
+                requestData.options.foreground_color = urlForegroundColor.value;
+            }
             break;
         case 'text':
             requestData.text = document.getElementById('textInput').value || 'Northflank QR API';
             requestData.options.size = parseInt(document.getElementById('textSize').value) || 10;
+            const textForegroundColor = document.getElementById('textForegroundColor');
+            if (textForegroundColor) {
+                requestData.options.foreground_color = textForegroundColor.value;
+            }
             break;
         case 'email':
             requestData.email = document.getElementById('emailInput').value || 'api@northflank.com';
@@ -196,7 +204,7 @@ function displayQRResult(data) {
         qr_code: data.data.qr_code.substring(0, 50) + '...',
         content: data.data.content,
         format: data.data.format,
-        deployment: 'Northflank'
+        options: data.data.options
     };
     
     apiResponse.textContent = JSON.stringify(formattedResponse, null, 2);
@@ -224,8 +232,7 @@ function showError(message) {
     
     const errorResponse = {
         success: false,
-        error: message,
-        deployment: 'Northflank'
+        error: message
     };
     
     apiResponse.textContent = JSON.stringify(errorResponse, null, 2);

@@ -32,7 +32,6 @@ def health_check():
     return jsonify({
         'status': 'healthy',
         'service': 'QR Code Generator API Pro',
-        'deployment': 'Northflank',
         'timestamp': str(datetime.now()),
         'version': '1.0.0',
         'uptime': '100%'
@@ -56,7 +55,7 @@ def generate_url_qr():
         response = jsonify(result)
         response.headers['X-RateLimit-Limit'] = '10000'
         response.headers['X-RateLimit-Remaining'] = '9999'
-        response.headers['X-Deployment'] = 'Northflank'
+
         
         return response
         
@@ -82,7 +81,7 @@ def generate_text_qr():
         response = jsonify(result)
         response.headers['X-RateLimit-Limit'] = '10000'
         response.headers['X-RateLimit-Remaining'] = '9999'
-        response.headers['X-Deployment'] = 'Northflank'
+
         
         return response
         
@@ -109,7 +108,7 @@ def generate_email_qr():
         response = jsonify(result)
         response.headers['X-RateLimit-Limit'] = '10000'
         response.headers['X-RateLimit-Remaining'] = '9999'
-        response.headers['X-Deployment'] = 'Northflank'
+
         
         return response
         
@@ -134,7 +133,7 @@ def generate_phone_qr():
         response = jsonify(result)
         response.headers['X-RateLimit-Limit'] = '10000'
         response.headers['X-RateLimit-Remaining'] = '9999'
-        response.headers['X-Deployment'] = 'Northflank'
+
         
         return response
         
@@ -160,7 +159,7 @@ def generate_sms_qr():
         response = jsonify(result)
         response.headers['X-RateLimit-Limit'] = '10000'
         response.headers['X-RateLimit-Remaining'] = '9999'
-        response.headers['X-Deployment'] = 'Northflank'
+
         
         return response
         
@@ -199,7 +198,7 @@ def generate_vcard_qr():
         response = jsonify(result)
         response.headers['X-RateLimit-Limit'] = '10000'
         response.headers['X-RateLimit-Remaining'] = '9999'
-        response.headers['X-Deployment'] = 'Northflank'
+
         
         return response
         
@@ -226,7 +225,7 @@ def generate_wifi_qr():
         response = jsonify(result)
         response.headers['X-RateLimit-Limit'] = '10000'
         response.headers['X-RateLimit-Remaining'] = '9999'
-        response.headers['X-Deployment'] = 'Northflank'
+
         
         return response
         
@@ -252,7 +251,7 @@ def generate_location_qr():
         response = jsonify(result)
         response.headers['X-RateLimit-Limit'] = '10000'
         response.headers['X-RateLimit-Remaining'] = '9999'
-        response.headers['X-Deployment'] = 'Northflank'
+
         
         return response
         
