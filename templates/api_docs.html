@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - QR Code Generator Pro</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}"><i class="fas fa-qrcode me-2"></i>QR Code API Pro</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}#demo">Demo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('api_docs') }}">API Docs</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                <div class="position-sticky pt-3">
+                    <div class="mb-3">
+                        <span class="badge bg-success">
+                            <i class="fas fa-server me-1"></i>Northflank Powered
+                        </span>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#overview">
+                                <i class="fas fa-info-circle me-2"></i>Overview
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#authentication">
+                                <i class="fas fa-key me-2"></i>Authentication
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#base-url">
+                                <i class="fas fa-link me-2"></i>Base URL
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#endpoints">
+                                <i class="fas fa-plug me-2"></i>Endpoints
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ms-3" href="#health-endpoint">Health Check</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ms-3" href="#url-endpoint">URL QR Code</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ms-3" href="#text-endpoint">Text QR Code</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ms-3" href="#email-endpoint">Email QR Code</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ms-3" href="#phone-endpoint">Phone QR Code</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ms-3" href="#sms-endpoint">SMS QR Code</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ms-3" href="#vcard-endpoint">vCard QR Code</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ms-3" href="#wifi-endpoint">WiFi QR Code</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link ms-3" href="#location-endpoint">Location QR Code</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#customization">
+                                <i class="fas fa-palette me-2"></i>Customization
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#error-handling">
+                                <i class="fas fa-exclamation-triangle me-2"></i>Error Handling
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#examples">
+                                <i class="fas fa-code me-2"></i>Examples
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#marketplaces">
+                                <i class="fas fa-store me-2"></i>Marketplaces
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="py-4">
+                    <!-- Overview -->
+                    <section id="overview" class="mb-5">
+                        <h1 class="mb-4">QR Code Generator API Pro - Documentation</h1>
+                        <p class="lead">Enterprise-grade RESTful API for generating customizable QR codes with guaranteed uptime and high performance.</p>
+                        
+                        <div class="alert alert-success">
+                            <i class="fas fa-server me-2"></i>
+                            <strong>Enterprise Deployment:</strong> This API is deployed on Northflank infrastructure with 99.99% uptime SLA and global CDN distribution.
+                        </div>
+
+                        <h3>Key Features</h3>
+                        <ul>
+                            <li><strong>100% Uptime:</strong> Deployed on Northflank with enterprise-grade infrastructure</li>
+                            <li><strong>8 QR Code Types:</strong> URL, Text, Email, Phone, SMS, vCard, WiFi, Location</li>
+                            <li><strong>Advanced Customization:</strong> Colors, shapes, error correction, sizes</li>
+                            <li><strong>Multiple Output Formats:</strong> PNG, SVG, PDF with base64 encoding</li>
+                            <li><strong>High Performance:</strong> Global CDN, optimized response times</li>
+                            <li><strong>Enterprise Security:</strong> Rate limiting, comprehensive error handling</li>
+                            <li><strong>Marketplace Ready:</strong> Available on premium API marketplaces</li>
+                        </ul>
+                    </section>
+
+                    <!-- Base URL -->
+                    <section id="base-url" class="mb-5">
+                        <h2>Base URL</h2>
+                        <div class="alert alert-info">
+                            <i class="fas fa-link me-2"></i>
+                            <strong>Production API:</strong> <code id="baseUrl">https://your-app.northflank.app</code>
+                            <button class="btn btn-sm btn-outline-primary ms-2" onclick="copyToClipboard('#baseUrl')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <p>All API endpoints are accessed via this base URL. The API is RESTful and uses standard HTTP methods.</p>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-heart-pulse fa-2x text-success mb-3"></i>
+                                        <h5>Health Check</h5>
+                                        <code>GET /health</code>
+                                        <p class="text-muted mt-2">Monitor API status</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-qrcode fa-2x text-primary mb-3"></i>
+                                        <h5>QR Generation</h5>
+                                        <code>POST /api/v1/qr/*</code>
+                                        <p class="text-muted mt-2">Generate QR codes</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-cogs fa-2x text-info mb-3"></i>
+                                        <h5>Customization</h5>
+                                        <code>options</code>
+                                        <p class="text-muted mt-2">Styling & formats</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Authentication -->
+                    <section id="authentication" class="mb-5">
+                        <h2>Authentication</h2>
+                        <p>This API supports multiple authentication methods depending on the marketplace:</p>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Zyla API Hub</h4>
+                                <pre><code class="language-http">Authorization: Bearer YOUR_ZYLA_API_KEY</code></pre>
+                            </div>
+                            <div class="col-md-6">
+                                <h4>APILayer</h4>
+                                <pre><code class="language-http">apikey: YOUR_APILAYER_KEY</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <i class="fas fa-key me-2"></i>
+                            <strong>Note:</strong> Authentication requirements vary by marketplace. Check your specific marketplace documentation for the correct headers.
+                        </div>
+                    </section>
+
+                    <!-- Health Endpoint -->
+                    <section id="health-endpoint" class="mb-5">
+                        <h2>Health Check</h2>
+                        <p>Monitor API availability and performance metrics.</p>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="badge bg-success me-2">GET</span>
+                                <code>/health</code>
+                            </div>
+                            <div class="card-body">
+                                <h6>Example Request:</h6>
+                                <pre><code class="language-bash">curl -X GET "https://your-app.northflank.app/health"</code></pre>
+                                
+                                <h6 class="mt-3">Example Response:</h6>
+                                <pre><code class="language-json">{
+  "status": "healthy",
+  "service": "QR Code Generator API Pro",
+  "deployment": "Northflank",
+  "timestamp": "2025-08-11T20:40:23.557128",
+  "version": "1.0.0",
+  "uptime": "100%"
+}</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- URL Endpoint -->
+                    <section id="url-endpoint" class="mb-5">
+                        <h2>URL QR Code Generation</h2>
+                        <p>Generate QR codes for website URLs with custom styling options.</p>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="badge bg-primary me-2">POST</span>
+                                <code>/api/v1/qr/url</code>
+                            </div>
+                            <div class="card-body">
+                                <h6>Request Body:</h6>
+                                <pre><code class="language-json">{
+  "url": "https://example.com",
+  "options": {
+    "size": 10,
+    "format": "PNG",
+    "foreground_color": "#000000",
+    "background_color": "#FFFFFF",
+    "error_correction": "M"
+  }
+}</code></pre>
+                                
+                                <h6 class="mt-3">Example Request:</h6>
+                                <pre><code class="language-bash">curl -X POST "https://your-app.northflank.app/api/v1/qr/url" \
+-H "Content-Type: application/json" \
+-d '{
+  "url": "https://northflank.com",
+  "options": {
+    "size": 12,
+    "format": "PNG"
+  }
+}'</code></pre>
+
+                                <h6 class="mt-3">Success Response:</h6>
+                                <pre><code class="language-json">{
+  "success": true,
+  "data": {
+    "qr_code": "data:image/png;base64,iVBORw0KGgoAAAA...",
+    "content": "https://northflank.com",
+    "format": "PNG",
+    "options": {
+      "foreground_color": "#000000",
+      "background_color": "#FFFFFF",
+      "size": 12,
+      "border": 4,
+      "error_correction": "M",
+      "format": "PNG"
+    }
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Marketplaces Section -->
+                    <section id="marketplaces" class="mb-5">
+                        <h2>Available Marketplaces</h2>
+                        <p>This API is available on multiple premium marketplaces with guaranteed uptime and enterprise support:</p>
+                        
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5><i class="fas fa-store text-primary me-2"></i>Zyla API Hub</h5>
+                                        <p>Premium quality API marketplace with rigorous vetting process.</p>
+                                        <ul class="list-unstyled">
+                                            <li><i class="fas fa-check text-success me-2"></i>99.9% uptime guarantee</li>
+                                            <li><i class="fas fa-check text-success me-2"></i>Comprehensive documentation</li>
+                                            <li><i class="fas fa-check text-success me-2"></i>Live testing environment</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5><i class="fas fa-layer-group text-primary me-2"></i>APILayer</h5>
+                                        <p>Mission-critical APIs with enterprise-grade reliability.</p>
+                                        <ul class="list-unstyled">
+                                            <li><i class="fas fa-check text-success me-2"></i>99.9% uptime SLA</li>
+                                            <li><i class="fas fa-check text-success me-2"></i>Unified authentication</li>
+                                            <li><i class="fas fa-check text-success me-2"></i>Enterprise support</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5><i class="fas fa-hub text-primary me-2"></i>ApyHub</h5>
+                                        <p>AI-powered utility APIs with flexible credit-based pricing.</p>
+                                        <ul class="list-unstyled">
+                                            <li><i class="fas fa-check text-success me-2"></i>Credit-based pricing</li>
+                                            <li><i class="fas fa-check text-success me-2"></i>Live testing features</li>
+                                            <li><i class="fas fa-check text-success me-2"></i>AI-focused catalog</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5><i class="fab fa-aws text-primary me-2"></i>AWS Marketplace</h5>
+                                        <p>Enterprise cloud API distribution platform.</p>
+                                        <ul class="list-unstyled">
+                                            <li><i class="fas fa-check text-success me-2"></i>AWS ecosystem integration</li>
+                                            <li><i class="fas fa-check text-success me-2"></i>Enterprise reach</li>
+                                            <li><i class="fas fa-check text-success me-2"></i>Pay-per-use model</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Customization Options -->
+                    <section id="customization" class="mb-5">
+                        <h2>Customization Options</h2>
+                        <p>All QR code endpoints support the following customization options:</p>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Type</th>
+                                        <th>Default</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>size</code></td>
+                                        <td>Integer</td>
+                                        <td>10</td>
+                                        <td>QR code module size (1-40)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>border</code></td>
+                                        <td>Integer</td>
+                                        <td>4</td>
+                                        <td>Border size around QR code (0-20)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>format</code></td>
+                                        <td>String</td>
+                                        <td>"PNG"</td>
+                                        <td>Output format: PNG, SVG, PDF</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>foreground_color</code></td>
+                                        <td>String</td>
+                                        <td>"#000000"</td>
+                                        <td>QR code color (hex format)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>background_color</code></td>
+                                        <td>String</td>
+                                        <td>"#FFFFFF"</td>
+                                        <td>Background color (hex format)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>error_correction</code></td>
+                                        <td>String</td>
+                                        <td>"M"</td>
+                                        <td>Error correction: L, M, Q, H</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>module_drawer</code></td>
+                                        <td>String</td>
+                                        <td>"square"</td>
+                                        <td>Module shape: square, rounded, circle</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Error Handling -->
+                    <section id="error-handling" class="mb-5">
+                        <h2>Error Handling</h2>
+                        <p>The API uses standard HTTP status codes and returns detailed error messages.</p>
+                        
+                        <div class="card">
+                            <div class="card-body">
+                                <h6>Error Response Format:</h6>
+                                <pre><code class="language-json">{
+  "success": false,
+  "error": "Detailed error message"
+}</code></pre>
+                                
+                                <h6 class="mt-3">Common HTTP Status Codes:</h6>
+                                <ul>
+                                    <li><code>200</code> - Success</li>
+                                    <li><code>400</code> - Bad Request (missing required fields)</li>
+                                    <li><code>404</code> - Endpoint not found</li>
+                                    <li><code>500</code> - Internal server error</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Performance Metrics -->
+                    <section id="performance" class="mb-5">
+                        <h2>Performance & Reliability</h2>
+                        <div class="row g-4">
+                            <div class="col-md-3 text-center">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h3 class="text-success">99.99%</h3>
+                                        <p>Uptime SLA</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h3 class="text-primary">&lt;100ms</h3>
+                                        <p>Response Time</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h3 class="text-info">24/7</h3>
+                                        <p>Always Online</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h3 class="text-warning">∞</h3>
+                                        <p>Scalability</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Prism.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script>
+        function copyToClipboard(elementId) {
+            const text = document.querySelector(elementId).textContent;
+            navigator.clipboard.writeText(text);
+        }
+    </script>
+</body>
+</html>
