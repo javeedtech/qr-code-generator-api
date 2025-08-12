@@ -16,6 +16,8 @@ parts/
 sdist/
 var/
 wheels/
+pip-wheel-metadata/
+share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
@@ -25,7 +27,25 @@ MANIFEST
 *.manifest
 *.spec
 
-# Environment variables
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Virtual environments
 .env
 .venv
 env/
@@ -39,7 +59,6 @@ venv.bak/
 .idea/
 *.swp
 *.swo
-*~
 
 # OS
 .DS_Store
@@ -52,8 +71,13 @@ Thumbs.db
 
 # Logs
 *.log
-logs/
+
+# Environment variables
+.env.local
+.env.development
+.env.production
 
 # Temporary files
+temp/
+tmp/
 *.tmp
-*.temp

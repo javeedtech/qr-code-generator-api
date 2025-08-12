@@ -148,14 +148,16 @@ function buildRequestData(type) {
     // Get common options for each type
     function getTypeOptions(prefix) {
         const sizeEl = document.getElementById(prefix + 'Size');
+        const borderEl = document.getElementById(prefix + 'Border');
         const formatEl = document.getElementById(prefix + 'Format');
-        const shapeEl = document.getElementById(prefix + 'Shape');
+        const shapeEl = document.getElementById(prefix + 'ModuleDrawer');
         const errorCorrectionEl = document.getElementById(prefix + 'ErrorCorrection');
         const foregroundEl = document.getElementById(prefix + 'ForegroundColor');
         const backgroundEl = document.getElementById(prefix + 'BackgroundColor');
         
         const options = {};
         if (sizeEl) options.size = parseInt(sizeEl.value) || 10;
+        if (borderEl) options.border = parseInt(borderEl.value) || 4;
         if (formatEl) options.format = formatEl.value || 'PNG';
         if (shapeEl) options.module_drawer = shapeEl.value || 'square';
         if (errorCorrectionEl) options.error_correction = errorCorrectionEl.value || 'M';
@@ -178,17 +180,36 @@ function buildRequestData(type) {
             requestData.email = document.getElementById('emailInput').value || 'api@northflank.com';
             requestData.subject = document.getElementById('emailSubject').value || 'API Inquiry';
             requestData.message = document.getElementById('emailMessage').value || 'Hello from Northflank!';
-            // Email uses default options for now, can be enhanced
+            Object.assign(requestData.options, getTypeOptions('email'));
             break;
         case 'phone':
             requestData.phone = document.getElementById('phoneInput').value || '+1234567890';
-            // Phone uses default options for now, can be enhanced
+            Object.assign(requestData.options, getTypeOptions('phone'));
             break;
         case 'wifi':
             requestData.ssid = document.getElementById('wifiSSID').value || 'NorthflankWiFi';
             requestData.password = document.getElementById('wifiPassword').value || 'secure123';
             requestData.encryption = document.getElementById('wifiSecurity').value || 'WPA';
-            // WiFi uses default options for now, can be enhanced
+            Object.assign(requestData.options, getTypeOptions('wifi'));
+            break;
+        case 'sms':
+            requestData.phone = document.getElementById('smsPhone').value || '+1234567890';
+            requestData.message = document.getElementById('smsMessage').value || 'Hello from Northflank API!';
+            Object.assign(requestData.options, getTypeOptions('sms'));
+            break;
+        case 'vcard':
+            requestData.first_name = document.getElementById('vcardFirstName').value || 'John';
+            requestData.last_name = document.getElementById('vcardLastName').value || 'Doe';
+            requestData.organization = document.getElementById('vcardOrganization').value || 'Northflank Inc.';
+            requestData.email = document.getElementById('vcardEmail').value || 'john@northflank.com';
+            requestData.phone_work = document.getElementById('vcardPhoneWork').value || '+1234567890';
+            requestData.phone_mobile = document.getElementById('vcardPhoneMobile').value || '+1987654321';
+            Object.assign(requestData.options, getTypeOptions('vcard'));
+            break;
+        case 'location':
+            requestData.latitude = parseFloat(document.getElementById('locationLatitude').value) || 40.7128;
+            requestData.longitude = parseFloat(document.getElementById('locationLongitude').value) || -74.0060;
+            Object.assign(requestData.options, getTypeOptions('location'));
             break;
     }
     

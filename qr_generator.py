@@ -76,27 +76,38 @@ class QRCodeGenerator:
                     fill_color=merged_options['foreground_color'],
                     back_color=merged_options['background_color']
                 )
+                
+                # Verify colors were applied correctly by checking a corner pixel
+                test_pixel = img.getpixel((5, 5))
+                # If pixel is not the expected background color, fallback to basic
+                expected_bg = merged_options['background_color']
+                if (expected_bg != '#FFFFFF' and expected_bg != '#ffffff' and 
+                    test_pixel == (255, 255, 255)):
+                    # Colors weren't applied properly, use basic generation
+                    raise Exception("Colors not applied with StyledPilImage")
+                    
             except Exception as e:
-                logging.warning(f"Advanced styling failed, falling back to basic: {e}")
+                logging.warning(f"Advanced styling failed, using basic: {str(e)}")
+                # Fallback to basic generation
                 img = qr.make_image(
                     fill_color=merged_options['foreground_color'],
                     back_color=merged_options['background_color']
                 )
         else:
-            # Basic image generation
+            # Use basic image generation for square modules or when advanced styling unavailable
             img = qr.make_image(
                 fill_color=merged_options['foreground_color'],
                 back_color=merged_options['background_color']
             )
         
         # Add logo if specified
-        if merged_options.get('logo_path') and os.path.exists(merged_options['logo_path']):
+        if merged_options.get('logo_path'):
             img = self._add_logo(img, merged_options['logo_path'], merged_options['logo_size_ratio'])
         
-        return img, merged_options
+        return img
     
-    def _add_logo(self, qr_img, logo_path, size_ratio):
-        """Add logo to center of QR code"""
+    def _add_logo(self, qr_img, logo_path, size_ratio=0.3):
+        """Add logo to QR code image"""
         try:
             logo = Image.open(logo_path)
             
@@ -107,273 +118,196 @@ class QRCodeGenerator:
             # Resize logo
             logo = logo.resize((logo_size, logo_size), Image.Resampling.LANCZOS)
             
-            # Create a white background for logo
+            # Create a white background for the logo
             logo_bg = Image.new('RGB', (logo_size + 20, logo_size + 20), 'white')
             logo_bg.paste(logo, (10, 10))
             
-            # Calculate position to center logo
+            # Calculate position to center the logo
             pos = ((qr_width - logo_size - 20) // 2, (qr_height - logo_size - 20) // 2)
+            
+            # Paste logo onto QR code
             qr_img.paste(logo_bg, pos)
             
+            return qr_img
         except Exception as e:
-            logging.warning(f"Failed to add logo: {e}")
-        
-        return qr_img
+            logging.warning(f"Failed to add logo: {str(e)}")
+            return qr_img
     
-    def _image_to_base64(self, img, format_type='PNG'):
+    def _image_to_base64(self, img, format='PNG'):
         """Convert PIL image to base64 string"""
         buffer = io.BytesIO()
-        
-        if format_type.upper() == 'PNG':
-            img.save(buffer, format='PNG', optimize=True)
-            mime_type = 'image/png'
-        elif format_type.upper() == 'JPEG':
-            # Convert to RGB for JPEG (no transparency)
-            if img.mode == 'RGBA':
-                background = Image.new('RGB', img.size, 'white')
-                background.paste(img, mask=img.split()[-1])
-                img = background
-            img.save(buffer, format='JPEG', optimize=True, quality=85)
-            mime_type = 'image/jpeg'
-        elif format_type.upper() == 'SVG':
-            # Generate SVG format
-            return self._create_svg_qr(img)
-        else:
-            img.save(buffer, format='PNG', optimize=True)
-            mime_type = 'image/png'
-        
+        img.save(buffer, format=format)
         buffer.seek(0)
-        img_str = base64.b64encode(buffer.read()).decode()
-        return f"data:{mime_type};base64,{img_str}"
+        
+        img_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+        return f"data:image/{format.lower()};base64,{img_base64}"
     
-    def _create_svg_qr(self, img):
-        """Create SVG version of QR code"""
-        try:
-            width, height = img.size
-            
-            # Convert image to black/white pixels
-            img_bw = img.convert('1')  # Convert to 1-bit (black/white)
-            pixels = list(img_bw.getdata())
-            
-            # Create optimized SVG with larger modules for better performance
-            module_size = max(1, width // 50)  # Adjust based on QR size
-            svg_width = width
-            svg_height = height
-            
-            # Create SVG with proper scaling
-            svg_content = f'''<?xml version="1.0" encoding="UTF-8"?>
-<svg width="{svg_width}" height="{svg_height}" viewBox="0 0 {width} {height}" xmlns="http://www.w3.org/2000/svg">
-<rect width="{width}" height="{height}" fill="white"/>'''
-            
-            # Group adjacent black pixels into larger rectangles for efficiency
-            for y in range(0, height, module_size):
-                for x in range(0, width, module_size):
-                    # Check if this module should be black
-                    pixel_idx = min(y * width + x, len(pixels) - 1)
-                    if pixels[pixel_idx] == 0:  # Black pixel
-                        rect_width = min(module_size, width - x)
-                        rect_height = min(module_size, height - y)
-                        svg_content += f'<rect x="{x}" y="{y}" width="{rect_width}" height="{rect_height}" fill="black"/>'
-            
-            svg_content += '</svg>'
-            
-            # Encode SVG as base64
-            import base64
-            svg_b64 = base64.b64encode(svg_content.encode('utf-8')).decode()
-            return f"data:image/svg+xml;base64,{svg_b64}"
-            
-        except Exception as e:
-            logging.warning(f"SVG generation failed, falling back to PNG: {e}")
-            # Fallback to PNG
-            return self._image_to_base64(img, 'PNG')
+    def _generate_svg(self, data, options):
+        """Generate SVG format QR code"""
+        merged_options = {**self.default_options, **options}
+        
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=self._get_error_correction_level(merged_options['error_correction']),
+            box_size=merged_options['size'],
+            border=merged_options['border'],
+        )
+        
+        qr.add_data(data)
+        qr.make(fit=True)
+        
+        # Get the QR code matrix
+        matrix = qr.get_matrix()
+        size = merged_options['size']
+        border = merged_options['border']
+        
+        # Calculate SVG dimensions
+        matrix_size = len(matrix)
+        total_size = (matrix_size + 2 * border) * size
+        
+        # Create SVG content
+        svg_content = f'''<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="{total_size}" height="{total_size}" viewBox="0 0 {total_size} {total_size}">
+<rect width="{total_size}" height="{total_size}" fill="{merged_options['background_color']}"/>'''
+
+        # Add QR code modules
+        for row in range(matrix_size):
+            for col in range(matrix_size):
+                if matrix[row][col]:
+                    x = (col + border) * size
+                    y = (row + border) * size
+                    
+                    if merged_options['module_drawer'] == 'circle':
+                        radius = size // 2
+                        cx = x + radius
+                        cy = y + radius
+                        svg_content += f'\n<circle cx="{cx}" cy="{cy}" r="{radius}" fill="{merged_options["foreground_color"]}"/>'
+                    elif merged_options['module_drawer'] == 'rounded':
+                        rx = ry = size // 4
+                        svg_content += f'\n<rect x="{x}" y="{y}" width="{size}" height="{size}" rx="{rx}" ry="{ry}" fill="{merged_options["foreground_color"]}"/>'
+                    else:  # square
+                        svg_content += f'\n<rect x="{x}" y="{y}" width="{size}" height="{size}" fill="{merged_options["foreground_color"]}"/>'
+        
+        svg_content += '\n</svg>'
+        
+        return f"data:image/svg+xml;base64,{base64.b64encode(svg_content.encode()).decode()}"
     
-    def _create_pdf(self, img, content):
-        """Create PDF with QR code"""
-        try:
-            # Save image to temporary file
-            with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as temp_img:
-                img.save(temp_img.name, 'PNG')
-                temp_img_path = temp_img.name
-            
-            # Create PDF
-            with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as temp_pdf:
-                c = canvas.Canvas(temp_pdf.name, pagesize=letter)
-                
-                # Add title
-                c.setFont("Helvetica-Bold", 16)
-                c.drawString(50, 750, "QR Code")
-                
-                # Add QR code image
-                c.drawImage(temp_img_path, 50, 500, width=200, height=200)
-                
-                # Add content description
-                c.setFont("Helvetica", 12)
-                c.drawString(50, 480, f"Content: {content[:50]}...")
-                
-                c.save()
-                temp_pdf_path = temp_pdf.name
-            
-            # Read PDF and convert to base64
-            with open(temp_pdf_path, 'rb') as pdf_file:
-                pdf_data = base64.b64encode(pdf_file.read()).decode()
-            
-            # Cleanup
-            os.unlink(temp_img_path)
-            os.unlink(temp_pdf_path)
-            
-            return f"data:application/pdf;base64,{pdf_data}"
-            
-        except Exception as e:
-            logging.error(f"PDF generation failed: {e}")
-            # Fallback to PNG
-            return self._image_to_base64(img, 'PNG')
+    def _generate_pdf(self, data, options):
+        """Generate PDF format QR code"""
+        merged_options = {**self.default_options, **options}
+        
+        # Create QR code image first
+        img = self._create_qr_code(data, merged_options)
+        
+        # Create temporary file for the image
+        with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as temp_img:
+            img.save(temp_img.name, 'PNG')
+            temp_img_path = temp_img.name
+        
+        # Create PDF
+        pdf_buffer = io.BytesIO()
+        c = canvas.Canvas(pdf_buffer, pagesize=letter)
+        
+        # Calculate position to center QR code
+        page_width, page_height = letter
+        img_width = img_height = 200  # Fixed size for PDF
+        x = (page_width - img_width) / 2
+        y = (page_height - img_height) / 2
+        
+        # Draw QR code on PDF
+        c.drawImage(temp_img_path, x, y, width=img_width, height=img_height)
+        c.save()
+        
+        # Clean up temporary file
+        os.unlink(temp_img_path)
+        
+        pdf_base64 = base64.b64encode(pdf_buffer.getvalue()).decode('utf-8')
+        return f"data:application/pdf;base64,{pdf_base64}"
+    
+    def _generate_response(self, data, options):
+        """Generate response with multiple formats"""
+        merged_options = {**self.default_options, **options}
+        format_type = merged_options['format'].upper()
+        
+        response = {
+            'success': True,
+            'data': {
+                'content': data,
+                'options': merged_options
+            }
+        }
+        
+        if format_type == 'SVG':
+            response['data']['qr_code'] = self._generate_svg(data, options)
+            response['data']['format'] = 'SVG'
+        elif format_type == 'PDF':
+            response['data']['qr_code'] = self._generate_pdf(data, options)
+            response['data']['format'] = 'PDF'
+        else:  # Default to PNG
+            img = self._create_qr_code(data, options)
+            response['data']['qr_code'] = self._image_to_base64(img, 'PNG')
+            response['data']['format'] = 'PNG'
+        
+        return response
     
     def generate_url_qr(self, url, options=None):
         """Generate QR code for URL"""
         if options is None:
             options = {}
         
-        try:
-            img, final_options = self._create_qr_code(url, options)
-            
-            if final_options['format'].upper() == 'PDF':
-                qr_data = self._create_pdf(img, url)
-            else:
-                qr_data = self._image_to_base64(img, final_options['format'])
-            
-            return {
-                'success': True,
-                'data': {
-                    'qr_code': qr_data,
-                    'content': url,
-                    'format': final_options['format'].upper(),
-                    'options': final_options
-                }
-            }
-        except Exception as e:
-            logging.error(f"Error generating URL QR code: {e}")
-            return {'success': False, 'error': str(e)}
+        # Validate URL
+        if not url.startswith(('http://', 'https://')):
+            url = 'https://' + url
+        
+        return self._generate_response(url, options)
     
     def generate_text_qr(self, text, options=None):
         """Generate QR code for plain text"""
         if options is None:
             options = {}
         
-        try:
-            img, final_options = self._create_qr_code(text, options)
-            
-            if final_options['format'].upper() == 'PDF':
-                qr_data = self._create_pdf(img, text)
-            else:
-                qr_data = self._image_to_base64(img, final_options['format'])
-            
-            return {
-                'success': True,
-                'data': {
-                    'qr_code': qr_data,
-                    'content': text,
-                    'format': final_options['format'].upper(),
-                    'options': final_options
-                }
-            }
-        except Exception as e:
-            logging.error(f"Error generating text QR code: {e}")
-            return {'success': False, 'error': str(e)}
+        return self._generate_response(text, options)
     
     def generate_email_qr(self, email, subject='', message='', options=None):
         """Generate QR code for email"""
         if options is None:
             options = {}
         
-        # Create mailto link
-        mailto_data = f"mailto:{email}"
+        # Create mailto URL
+        mailto_url = f"mailto:{email}"
         params = []
+        
         if subject:
             params.append(f"subject={subject}")
         if message:
             params.append(f"body={message}")
         
         if params:
-            mailto_data += "?" + "&".join(params)
+            mailto_url += "?" + "&".join(params)
         
-        try:
-            img, final_options = self._create_qr_code(mailto_data, options)
-            
-            if final_options['format'].upper() == 'PDF':
-                qr_data = self._create_pdf(img, mailto_data)
-            else:
-                qr_data = self._image_to_base64(img, final_options['format'])
-            
-            return {
-                'success': True,
-                'data': {
-                    'qr_code': qr_data,
-                    'content': mailto_data,
-                    'format': final_options['format'].upper(),
-                    'options': final_options
-                }
-            }
-        except Exception as e:
-            logging.error(f"Error generating email QR code: {e}")
-            return {'success': False, 'error': str(e)}
+        return self._generate_response(mailto_url, options)
     
     def generate_phone_qr(self, phone, options=None):
         """Generate QR code for phone number"""
         if options is None:
             options = {}
         
-        phone_data = f"tel:{phone}"
+        # Create tel URL
+        tel_url = f"tel:{phone}"
         
-        try:
-            img, final_options = self._create_qr_code(phone_data, options)
-            
-            if final_options['format'].upper() == 'PDF':
-                qr_data = self._create_pdf(img, phone_data)
-            else:
-                qr_data = self._image_to_base64(img, final_options['format'])
-            
-            return {
-                'success': True,
-                'data': {
-                    'qr_code': qr_data,
-                    'content': phone_data,
-                    'format': final_options['format'].upper(),
-                    'options': final_options
-                }
-            }
-        except Exception as e:
-            logging.error(f"Error generating phone QR code: {e}")
-            return {'success': False, 'error': str(e)}
+        return self._generate_response(tel_url, options)
     
     def generate_sms_qr(self, phone, message='', options=None):
         """Generate QR code for SMS"""
         if options is None:
             options = {}
         
-        sms_data = f"sms:{phone}"
+        # Create SMS URL
+        sms_url = f"sms:{phone}"
         if message:
-            sms_data += f"?body={message}"
+            sms_url += f"?body={message}"
         
-        try:
-            img, final_options = self._create_qr_code(sms_data, options)
-            
-            if final_options['format'].upper() == 'PDF':
-                qr_data = self._create_pdf(img, sms_data)
-            else:
-                qr_data = self._image_to_base64(img, final_options['format'])
-            
-            return {
-                'success': True,
-                'data': {
-                    'qr_code': qr_data,
-                    'content': sms_data,
-                    'format': final_options['format'].upper(),
-                    'options': final_options
-                }
-            }
-        except Exception as e:
-            logging.error(f"Error generating SMS QR code: {e}")
-            return {'success': False, 'error': str(e)}
+        return self._generate_response(sms_url, options)
     
     def generate_vcard_qr(self, vcard_data, options=None):
         """Generate QR code for vCard contact"""
@@ -381,7 +315,8 @@ class QRCodeGenerator:
             options = {}
         
         # Create vCard format
-        vcard = "BEGIN:VCARD\nVERSION:3.0\n"
+        vcard = "BEGIN:VCARD\n"
+        vcard += "VERSION:3.0\n"
         
         if vcard_data.get('first_name') or vcard_data.get('last_name'):
             vcard += f"FN:{vcard_data.get('first_name', '')} {vcard_data.get('last_name', '')}\n"
@@ -412,89 +347,31 @@ class QRCodeGenerator:
         ]
         
         if any(address_parts):
-            address = ';'.join(address_parts)
-            vcard += f"ADR:;;{address}\n"
+            vcard += f"ADR:;;{';'.join(address_parts)}\n"
         
         vcard += "END:VCARD"
         
-        try:
-            img, final_options = self._create_qr_code(vcard, options)
-            
-            if final_options['format'].upper() == 'PDF':
-                qr_data = self._create_pdf(img, "vCard Contact")
-            else:
-                qr_data = self._image_to_base64(img, final_options['format'])
-            
-            return {
-                'success': True,
-                'data': {
-                    'qr_code': qr_data,
-                    'content': vcard,
-                    'format': final_options['format'].upper(),
-                    'options': final_options
-                }
-            }
-        except Exception as e:
-            logging.error(f"Error generating vCard QR code: {e}")
-            return {'success': False, 'error': str(e)}
+        return self._generate_response(vcard, options)
     
-    def generate_wifi_qr(self, ssid, password='', encryption='WPA', options=None):
+    def generate_wifi_qr(self, ssid, password, encryption='WPA', options=None):
         """Generate QR code for WiFi connection"""
         if options is None:
             options = {}
         
-        # Create WiFi format
+        # Create WiFi string format
         if encryption.upper() == 'NOPASS':
-            wifi_data = f"WIFI:T:nopass;S:{ssid};;"
+            wifi_string = f"WIFI:T:nopass;S:{ssid};;"
         else:
-            wifi_data = f"WIFI:T:{encryption.upper()};S:{ssid};P:{password};;"
+            wifi_string = f"WIFI:T:{encryption.upper()};S:{ssid};P:{password};;"
         
-        try:
-            img, final_options = self._create_qr_code(wifi_data, options)
-            
-            if final_options['format'].upper() == 'PDF':
-                qr_data = self._create_pdf(img, f"WiFi: {ssid}")
-            else:
-                qr_data = self._image_to_base64(img, final_options['format'])
-            
-            return {
-                'success': True,
-                'data': {
-                    'qr_code': qr_data,
-                    'content': wifi_data,
-                    'format': final_options['format'].upper(),
-                    'options': final_options
-                }
-            }
-        except Exception as e:
-            logging.error(f"Error generating WiFi QR code: {e}")
-            return {'success': False, 'error': str(e)}
+        return self._generate_response(wifi_string, options)
     
     def generate_location_qr(self, latitude, longitude, options=None):
         """Generate QR code for location coordinates"""
         if options is None:
             options = {}
         
-        # Create geo location format
-        geo_data = f"geo:{latitude},{longitude}"
+        # Create geo URL
+        geo_url = f"geo:{latitude},{longitude}"
         
-        try:
-            img, final_options = self._create_qr_code(geo_data, options)
-            
-            if final_options['format'].upper() == 'PDF':
-                qr_data = self._create_pdf(img, geo_data)
-            else:
-                qr_data = self._image_to_base64(img, final_options['format'])
-            
-            return {
-                'success': True,
-                'data': {
-                    'qr_code': qr_data,
-                    'content': geo_data,
-                    'format': final_options['format'].upper(),
-                    'options': final_options
-                }
-            }
-        except Exception as e:
-            logging.error(f"Error generating location QR code: {e}")
-            return {'success': False, 'error': str(e)}
+        return self._generate_response(geo_url, options)
