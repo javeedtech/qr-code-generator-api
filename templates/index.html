@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Generator API Pro - Northflank Deployment</title>
+    <title>QR Code Generator API - Demo & Documentation</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -12,13 +12,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="#"><i class="fas fa-qrcode me-2"></i>QR Code API Pro</a>
+            <a class="navbar-brand" href="#"><i class="fas fa-qrcode me-2"></i>QR Code API</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -28,10 +28,10 @@
                         <a class="nav-link active" href="#demo">Demo</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/docs">API Docs</a>
+                        <a class="nav-link" href="{{ url_for('api_docs') }}">API Docs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#marketplaces">Marketplaces</a>
+                        <a class="nav-link" href="#pricing">Pricing</a>
                     </li>
                 </ul>
             </div>
@@ -43,24 +43,11 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <h1 class="display-4 fw-bold mb-4">Enterprise QR Code API</h1>
-                    <p class="lead mb-4">High-performance QR code generation with 100% uptime guarantee. Deployed on Northflank for maximum reliability and global reach.</p>
-                    
-                    <div class="mb-4">
-                        <span class="badge bg-success fs-6 me-2">
-                            <i class="fas fa-check-circle me-1"></i>99.99% Uptime
-                        </span>
-                        <span class="badge bg-info fs-6 me-2">
-                            <i class="fas fa-globe me-1"></i>Global CDN
-                        </span>
-                        <span class="badge bg-warning fs-6">
-                            <i class="fas fa-bolt me-1"></i>Ultra Fast
-                        </span>
-                    </div>
-                    
+                    <h1 class="display-4 fw-bold mb-4">Professional QR Code Generator API</h1>
+                    <p class="lead mb-4">Generate high-quality QR codes with advanced customization options. Perfect for businesses, developers, and marketers.</p>
                     <div class="d-flex gap-3">
                         <a href="#demo" class="btn btn-primary btn-lg hero-btn-primary">Try Demo</a>
-                        <a href="/docs" class="btn btn-outline-primary btn-lg hero-btn-secondary">View API Docs</a>
+                        <a href="{{ url_for('api_docs') }}" class="btn btn-outline-primary btn-lg hero-btn-secondary">View API Docs</a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -68,7 +55,6 @@
                         <div class="qr-preview-hero">
                             <canvas id="heroQR" width="300" height="300"></canvas>
                         </div>
-                        <p class="text-muted mt-3">Powered by Northflank Infrastructure</p>
                     </div>
                 </div>
             </div>
@@ -78,85 +64,48 @@
     <!-- Features Section -->
     <section class="py-5">
         <div class="container">
-            <h2 class="text-center mb-5">Enterprise-Grade Features</h2>
+            <h2 class="text-center mb-5">Powerful Features</h2>
             <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="feature-card text-center">
-                        <i class="fas fa-server fa-3x text-primary mb-3"></i>
-                        <h4>100% Uptime</h4>
-                        <p>Deployed on Northflank with enterprise infrastructure and automatic failover</p>
-                    </div>
-                </div>
                 <div class="col-md-4">
                     <div class="feature-card text-center">
                         <i class="fas fa-palette fa-3x text-primary mb-3"></i>
                         <h4>Custom Design</h4>
-                        <p>Colors, shapes, logos, and gradients to match your brand perfectly</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="feature-card text-center">
-                        <i class="fas fa-code fa-3x text-primary mb-3"></i>
-                        <h4>8 QR Types</h4>
-                        <p>URL, Text, Email, Phone, SMS, vCard, WiFi, and GPS location QR codes</p>
+                        <p>Colors, shapes, logos, and gradients to match your brand</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="feature-card text-center">
                         <i class="fas fa-file-export fa-3x text-primary mb-3"></i>
                         <h4>Multiple Formats</h4>
-                        <p>PNG, SVG, and PDF outputs with base64 encoding for easy integration</p>
+                        <p>PNG, SVG, and PDF output formats for any use case</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="feature-card text-center">
                         <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
-                        <h4>Enterprise Security</h4>
-                        <p>Secure API endpoints with rate limiting and comprehensive error handling</p>
+                        <h4>Error Correction</h4>
+                        <p>L, M, Q, H error correction levels for reliability</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="feature-card text-center">
-                        <i class="fas fa-rocket fa-3x text-primary mb-3"></i>
-                        <h4>High Performance</h4>
-                        <p>Optimized for speed with global CDN and intelligent caching</p>
+                        <i class="fas fa-list fa-3x text-primary mb-3"></i>
+                        <h4>Multiple Types</h4>
+                        <p>URL, Text, Email, Phone, SMS, vCard, WiFi, Location</p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- API Marketplaces Section -->
-    <section id="marketplaces" class="py-5 bg-light">
-        <div class="container">
-            <h2 class="text-center mb-5">Available on Premium Marketplaces</h2>
-            <div class="row g-4">
-                <div class="col-md-3">
-                    <div class="marketplace-card text-center p-4">
-                        <i class="fas fa-store fa-2x text-primary mb-3"></i>
-                        <h5>Zyla API Hub</h5>
-                        <p class="text-muted">Premium quality APIs</p>
+                <div class="col-md-4">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-print fa-3x text-primary mb-3"></i>
+                        <h4>Print Quality</h4>
+                        <p>High resolution output perfect for professional printing</p>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="marketplace-card text-center p-4">
-                        <i class="fas fa-layer-group fa-2x text-primary mb-3"></i>
-                        <h5>APILayer</h5>
-                        <p class="text-muted">99.9% uptime guarantee</p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="marketplace-card text-center p-4">
-                        <i class="fas fa-hub fa-2x text-primary mb-3"></i>
-                        <h5>ApyHub</h5>
-                        <p class="text-muted">AI-powered utility APIs</p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="marketplace-card text-center p-4">
-                        <i class="fab fa-aws fa-2x text-primary mb-3"></i>
-                        <h5>AWS Marketplace</h5>
-                        <p class="text-muted">Enterprise cloud APIs</p>
+                <div class="col-md-4">
+                    <div class="feature-card text-center">
+                        <i class="fas fa-bolt fa-3x text-primary mb-3"></i>
+                        <h4>Fast & Reliable</h4>
+                        <p>Optimized for high-volume usage with quick response times</p>
                     </div>
                 </div>
             </div>
@@ -164,413 +113,222 @@
     </section>
 
     <!-- Demo Section -->
-    <section id="demo" class="py-5">
+    <section id="demo" class="py-5 bg-light">
         <div class="container">
             <h2 class="text-center mb-5">Interactive Demo</h2>
             
-            <!-- QR Code Generation Form -->
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
-                    <div class="card shadow-lg">
-                        <div class="card-header bg-primary text-white">
-                            <h4 class="mb-0"><i class="fas fa-qrcode me-2"></i>Generate QR Code</h4>
-                        </div>
-                        <div class="card-body">
-                            <!-- QR Type Selection -->
-                            <ul class="nav nav-tabs mb-4" id="qrTypeTabs" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="url-tab" data-bs-toggle="tab" data-bs-target="#url" type="button" role="tab">
-                                        <i class="fas fa-link me-1"></i>URL
-                                    </button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="text-tab" data-bs-toggle="tab" data-bs-target="#text" type="button" role="tab">
-                                        <i class="fas fa-font me-1"></i>Text
-                                    </button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="email-tab" data-bs-toggle="tab" data-bs-target="#email" type="button" role="tab">
-                                        <i class="fas fa-envelope me-1"></i>Email
-                                    </button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="phone-tab" data-bs-toggle="tab" data-bs-target="#phone" type="button" role="tab">
-                                        <i class="fas fa-phone me-1"></i>Phone
-                                    </button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="wifi-tab" data-bs-toggle="tab" data-bs-target="#wifi" type="button" role="tab">
-                                        <i class="fas fa-wifi me-1"></i>WiFi
-                                    </button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="sms-tab" data-bs-toggle="tab" data-bs-target="#sms" type="button" role="tab">
-                                        <i class="fas fa-sms me-1"></i>SMS
-                                    </button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="vcard-tab" data-bs-toggle="tab" data-bs-target="#vcard" type="button" role="tab">
-                                        <i class="fas fa-id-card me-1"></i>vCard
-                                    </button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="location-tab" data-bs-toggle="tab" data-bs-target="#location" type="button" role="tab">
-                                        <i class="fas fa-map-marker-alt me-1"></i>Location
-                                    </button>
-                                </li>
-                            </ul>
+            <!-- QR Type Tabs -->
+            <div class="row">
+                <div class="col-12">
+                    <ul class="nav nav-pills justify-content-center mb-4" id="qr-tabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="url-tab" data-bs-toggle="pill" data-bs-target="#url-pane" type="button" role="tab">
+                                <i class="fas fa-link me-2"></i>URL
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="text-tab" data-bs-toggle="pill" data-bs-target="#text-pane" type="button" role="tab">
+                                <i class="fas fa-font me-2"></i>Text
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="email-tab" data-bs-toggle="pill" data-bs-target="#email-pane" type="button" role="tab">
+                                <i class="fas fa-envelope me-2"></i>Email
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="phone-tab" data-bs-toggle="pill" data-bs-target="#phone-pane" type="button" role="tab">
+                                <i class="fas fa-phone me-2"></i>Phone
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="wifi-tab" data-bs-toggle="pill" data-bs-target="#wifi-pane" type="button" role="tab">
+                                <i class="fas fa-wifi me-2"></i>WiFi
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-                            <div class="tab-content" id="qrTypeContent">
+            <div class="row">
+                <!-- Input Panel -->
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Tab Content -->
+                            <div class="tab-content" id="qr-tab-content">
                                 <!-- URL Tab -->
-                                <div class="tab-pane fade show active" id="url" role="tabpanel">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Website URL</label>
-                                                <input type="url" class="form-control" id="urlInput" placeholder="https://example.com" value="https://northflank.com">
-                                            </div>
-                                        </div>
+                                <div class="tab-pane fade show active" id="url-pane" role="tabpanel">
+                                    <h5>URL QR Code</h5>
+                                    <div class="mb-3">
+                                        <label for="url-input" class="form-label">Website URL</label>
+                                        <input type="url" class="form-control" id="url-input" placeholder="https://example.com" value="https://rapidapi.com">
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Size</label>
-                                                <select class="form-select" id="urlSize">
-                                                    <option value="8">Small (8)</option>
-                                                    <option value="10" selected>Medium (10)</option>
-                                                    <option value="15">Large (15)</option>
-                                                    <option value="20">X-Large (20)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Format</label>
-                                                <select class="form-select" id="urlFormat">
-                                                    <option value="PNG" selected>PNG</option>
-                                                    <option value="JPEG">JPEG</option>
-                                                    <option value="SVG">SVG</option>
-                                                    <option value="PDF">PDF</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Shape</label>
-                                                <select class="form-select" id="urlShape">
-                                                    <option value="square" selected>Square</option>
-                                                    <option value="rounded">Rounded</option>
-                                                    <option value="circle">Circle</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Error Correction</label>
-                                                <select class="form-select" id="urlErrorCorrection">
-                                                    <option value="L">Low (L)</option>
-                                                    <option value="M" selected>Medium (M)</option>
-                                                    <option value="Q">Quartile (Q)</option>
-                                                    <option value="H">High (H)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Foreground</label>
-                                                <input type="color" class="form-control form-control-color" id="urlForegroundColor" value="#000000">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Background</label>
-                                                <input type="color" class="form-control form-control-color" id="urlBackgroundColor" value="#FFFFFF">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button type="button" class="btn btn-primary" onclick="generateQR('url')">
-                                        <i class="fas fa-qrcode me-2"></i>Generate URL QR Code
-                                    </button>
                                 </div>
 
                                 <!-- Text Tab -->
-                                <div class="tab-pane fade" id="text" role="tabpanel">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Text Content</label>
-                                                <textarea class="form-control" id="textInput" rows="3" placeholder="Enter your text here...">High-performance QR API powered by Northflank</textarea>
-                                            </div>
-                                        </div>
+                                <div class="tab-pane fade" id="text-pane" role="tabpanel">
+                                    <h5>Text QR Code</h5>
+                                    <div class="mb-3">
+                                        <label for="text-input" class="form-label">Text Content</label>
+                                        <textarea class="form-control" id="text-input" rows="3" placeholder="Enter your text here">Welcome to our QR Code API!</textarea>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Size</label>
-                                                <select class="form-select" id="textSize">
-                                                    <option value="8">Small (8)</option>
-                                                    <option value="10" selected>Medium (10)</option>
-                                                    <option value="15">Large (15)</option>
-                                                    <option value="20">X-Large (20)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Format</label>
-                                                <select class="form-select" id="textFormat">
-                                                    <option value="PNG" selected>PNG</option>
-                                                    <option value="JPEG">JPEG</option>
-                                                    <option value="SVG">SVG</option>
-                                                    <option value="PDF">PDF</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Shape</label>
-                                                <select class="form-select" id="textShape">
-                                                    <option value="square" selected>Square</option>
-                                                    <option value="rounded">Rounded</option>
-                                                    <option value="circle">Circle</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Error Correction</label>
-                                                <select class="form-select" id="textErrorCorrection">
-                                                    <option value="L">Low (L)</option>
-                                                    <option value="M" selected>Medium (M)</option>
-                                                    <option value="Q">Quartile (Q)</option>
-                                                    <option value="H">High (H)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Foreground</label>
-                                                <input type="color" class="form-control form-control-color" id="textForegroundColor" value="#000000">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Background</label>
-                                                <input type="color" class="form-control form-control-color" id="textBackgroundColor" value="#FFFFFF">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button type="button" class="btn btn-primary" onclick="generateQR('text')">
-                                        <i class="fas fa-qrcode me-2"></i>Generate Text QR Code
-                                    </button>
                                 </div>
 
                                 <!-- Email Tab -->
-                                <div class="tab-pane fade" id="email" role="tabpanel">
+                                <div class="tab-pane fade" id="email-pane" role="tabpanel">
+                                    <h5>Email QR Code</h5>
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label">Email Address</label>
-                                                <input type="email" class="form-control" id="emailInput" placeholder="contact@example.com">
+                                                <label for="email-input" class="form-label">Email Address</label>
+                                                <input type="email" class="form-control" id="email-input" placeholder="contact@example.com" value="contact@rapidapi.com">
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label">Subject</label>
-                                                <input type="text" class="form-control" id="emailSubject" placeholder="API Inquiry">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-                                                <label class="form-label">Message</label>
-                                                <input type="text" class="form-control" id="emailMessage" placeholder="Hello...">
+                                                <label for="email-subject" class="form-label">Subject</label>
+                                                <input type="text" class="form-control" id="email-subject" placeholder="Subject" value="QR Code Inquiry">
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-primary" onclick="generateQR('email')">
-                                        <i class="fas fa-qrcode me-2"></i>Generate Email QR Code
-                                    </button>
+                                    <div class="mb-3">
+                                        <label for="email-message" class="form-label">Message</label>
+                                        <textarea class="form-control" id="email-message" rows="2" placeholder="Email message">Hello, I'm interested in your QR Code API.</textarea>
+                                    </div>
                                 </div>
 
                                 <!-- Phone Tab -->
-                                <div class="tab-pane fade" id="phone" role="tabpanel">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Phone Number</label>
-                                                <input type="tel" class="form-control" id="phoneInput" placeholder="+1234567890">
-                                            </div>
-                                        </div>
+                                <div class="tab-pane fade" id="phone-pane" role="tabpanel">
+                                    <h5>Phone QR Code</h5>
+                                    <div class="mb-3">
+                                        <label for="phone-input" class="form-label">Phone Number</label>
+                                        <input type="tel" class="form-control" id="phone-input" placeholder="+1-555-123-4567" value="+1-555-123-4567">
                                     </div>
-                                    <button type="button" class="btn btn-primary" onclick="generateQR('phone')">
-                                        <i class="fas fa-qrcode me-2"></i>Generate Phone QR Code
-                                    </button>
                                 </div>
 
                                 <!-- WiFi Tab -->
-                                <div class="tab-pane fade" id="wifi" role="tabpanel">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-                                                <label class="form-label">Network Name (SSID)</label>
-                                                <input type="text" class="form-control" id="wifiSSID" placeholder="MyWiFi" value="NorthflankWiFi">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-                                                <label class="form-label">Password</label>
-                                                <input type="password" class="form-control" id="wifiPassword" placeholder="password123" value="secure123">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-                                                <label class="form-label">Security</label>
-                                                <select class="form-select" id="wifiSecurity">
-                                                    <option value="WPA" selected>WPA/WPA2</option>
-                                                    <option value="WEP">WEP</option>
-                                                    <option value="nopass">No Password</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button type="button" class="btn btn-primary" onclick="generateQR('wifi')">
-                                        <i class="fas fa-qrcode me-2"></i>Generate WiFi QR Code
-                                    </button>
-                                </div>
-
-                                <!-- SMS Tab -->
-                                <div class="tab-pane fade" id="sms" role="tabpanel">
+                                <div class="tab-pane fade" id="wifi-pane" role="tabpanel">
+                                    <h5>WiFi QR Code</h5>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label">Phone Number</label>
-                                                <input type="tel" class="form-control" id="smsPhone" placeholder="+1234567890" value="+1234567890">
+                                                <label for="wifi-ssid" class="form-label">Network Name (SSID)</label>
+                                                <input type="text" class="form-control" id="wifi-ssid" placeholder="MyWiFi" value="GuestNetwork">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label">Message</label>
-                                                <input type="text" class="form-control" id="smsMessage" placeholder="Text message" value="Hello from Northflank API!">
+                                                <label for="wifi-password" class="form-label">Password</label>
+                                                <input type="password" class="form-control" id="wifi-password" placeholder="password123" value="welcome123">
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-primary" onclick="generateQR('sms')">
-                                        <i class="fas fa-qrcode me-2"></i>Generate SMS QR Code
-                                    </button>
-                                </div>
-
-                                <!-- vCard Tab -->
-                                <div class="tab-pane fade" id="vcard" role="tabpanel">
-                                    <h5>Contact vCard</h5>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">First Name</label>
-                                                <input type="text" class="form-control" id="vcardFirstName" placeholder="John" value="John">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Last Name</label>
-                                                <input type="text" class="form-control" id="vcardLastName" placeholder="Doe" value="Doe">
-                                            </div>
-                                        </div>
+                                    <div class="mb-3">
+                                        <label for="wifi-encryption" class="form-label">Encryption</label>
+                                        <select class="form-select" id="wifi-encryption">
+                                            <option value="WPA">WPA/WPA2</option>
+                                            <option value="WEP">WEP</option>
+                                            <option value="nopass">No Encryption</option>
+                                        </select>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Organization</label>
-                                                <input type="text" class="form-control" id="vcardOrganization" placeholder="Company Name" value="Northflank Inc.">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-                                                <label class="form-label">Email</label>
-                                                <input type="email" class="form-control" id="vcardEmail" placeholder="john@company.com" value="john@northflank.com">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-                                                <label class="form-label">Work Phone</label>
-                                                <input type="tel" class="form-control" id="vcardPhoneWork" placeholder="+1234567890" value="+1234567890">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="mb-3">
-                                                <label class="form-label">Mobile Phone</label>
-                                                <input type="tel" class="form-control" id="vcardPhoneMobile" placeholder="+1987654321" value="+1987654321">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button type="button" class="btn btn-primary" onclick="generateQR('vcard')">
-                                        <i class="fas fa-qrcode me-2"></i>Generate vCard QR Code
-                                    </button>
-                                </div>
-
-                                <!-- Location Tab -->
-                                <div class="tab-pane fade" id="location" role="tabpanel">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Latitude</label>
-                                                <input type="number" step="any" class="form-control" id="locationLatitude" placeholder="40.7128" value="40.7128">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Longitude</label>
-                                                <input type="number" step="any" class="form-control" id="locationLongitude" placeholder="-74.0060" value="-74.0060">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Location Name (Optional)</label>
-                                                <input type="text" class="form-control" id="locationName" placeholder="New York City" value="Northflank HQ">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button type="button" class="btn btn-primary" onclick="generateQR('location')">
-                                        <i class="fas fa-qrcode me-2"></i>Generate Location QR Code
-                                    </button>
                                 </div>
                             </div>
 
-                            <!-- Loading and Result Display -->
-                            <div class="mt-4">
-                                <div id="loadingSpinner" class="text-center d-none">
-                                    <div class="spinner-border text-primary" role="status">
-                                        <span class="visually-hidden">Generating...</span>
+                            <!-- Customization Options -->
+                            <hr>
+                            <h5>Customization Options</h5>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="foreground-color" class="form-label">Foreground Color</label>
+                                        <input type="color" class="form-control form-control-color" id="foreground-color" value="#000000">
                                     </div>
-                                    <p class="mt-2">Generating QR Code...</p>
                                 </div>
-
-                                <div id="qrResult" class="text-center d-none">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h5>Generated QR Code</h5>
-                                            <div id="qrImageContainer" class="border rounded p-3 mb-3">
-                                                <!-- QR Code will be displayed here -->
-                                            </div>
-                                            <div class="d-flex gap-2 justify-content-center">
-                                                <button class="btn btn-outline-primary btn-sm" onclick="downloadQR()">
-                                                    <i class="fas fa-download me-1"></i>Download
-                                                </button>
-                                                <button class="btn btn-outline-secondary btn-sm" onclick="copyQRData()">
-                                                    <i class="fas fa-copy me-1"></i>Copy Base64
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h5>API Response</h5>
-                                            <div class="bg-dark text-light p-3 rounded">
-                                                <pre id="apiResponse" class="text-light mb-0" style="font-size: 0.8rem;"></pre>
-                                            </div>
-                                        </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="background-color" class="form-label">Background Color</label>
+                                        <input type="color" class="form-control form-control-color" id="background-color" value="#ffffff">
                                     </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="module-drawer" class="form-label">Shape Style</label>
+                                        <select class="form-select" id="module-drawer">
+                                            <option value="square">Square</option>
+                                            <option value="rounded">Rounded</option>
+                                            <option value="circle">Circle</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="error-correction" class="form-label">Error Correction</label>
+                                        <select class="form-select" id="error-correction">
+                                            <option value="L">Low (7%)</option>
+                                            <option value="M" selected>Medium (15%)</option>
+                                            <option value="Q">Quartile (25%)</option>
+                                            <option value="H">High (30%)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="format" class="form-label">Output Format</label>
+                                        <select class="form-select" id="format">
+                                            <option value="PNG" selected>PNG</option>
+                                            <option value="SVG">SVG</option>
+                                            <option value="PDF">PDF</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="size" class="form-label">Size</label>
+                                        <select class="form-select" id="size">
+                                            <option value="8">Small (8)</option>
+                                            <option value="10" selected>Medium (10)</option>
+                                            <option value="12">Large (12)</option>
+                                            <option value="15">Extra Large (15)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-primary" id="generate-btn">
+                                    <i class="fas fa-magic me-2"></i>Generate QR Code
+                                </button>
+                                <button type="button" class="btn btn-success" id="download-btn" style="display: none;">
+                                    <i class="fas fa-download me-2"></i>Download
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview Panel -->
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5>QR Code Preview</h5>
+                            <div id="qr-preview" class="qr-preview-container">
+                                <div class="placeholder-message">
+                                    <i class="fas fa-qrcode fa-4x text-muted mb-3"></i>
+                                    <p class="text-muted">Generate a QR code to see preview</p>
+                                </div>
+                            </div>
+                            
+                            <!-- API Response -->
+                            <div id="api-response" class="mt-3" style="display: none;">
+                                <h6>API Response</h6>
+                                <div class="text-start">
+                                    <small class="text-muted">Status: </small><span id="response-status" class="badge bg-success">200 OK</span><br>
+                                    <small class="text-muted">Format: </small><span id="response-format">PNG</span><br>
+                                    <small class="text-muted">Size: </small><span id="response-size">-</span>
                                 </div>
                             </div>
                         </div>
@@ -580,71 +338,177 @@
         </div>
     </section>
 
-    <!-- Performance Section -->
-    <section class="py-5 bg-light">
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-5">
         <div class="container">
-            <h2 class="text-center mb-5">Northflank Performance Advantage</h2>
-            <div class="row g-4">
-                <div class="col-md-3 text-center">
-                    <div class="performance-stat">
-                        <h3 class="display-4 text-primary fw-bold">99.99%</h3>
-                        <p class="h5">Uptime SLA</p>
+            <h2 class="text-center mb-5">Competitive RapidAPI Pricing</h2>
+            <div class="row justify-content-center">
+                <!-- Free Tier -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <div class="pricing-card card h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Free</h5>
+                            <div class="price-display">
+                                <span class="price">$0</span>
+                                <span class="period">/mo</span>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Requests</strong><br>
+                                <span class="text-primary">500 / Month</span>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Rate Limit</strong><br>
+                                <span class="text-muted">1 req/sec</span>
+                            </div>
+                            <ul class="list-unstyled mt-3">
+                                <li><i class="fas fa-check text-success me-2"></i>All QR types</li>
+                                <li><i class="fas fa-check text-success me-2"></i>PNG format</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Basic colors</li>
+                            </ul>
+                            <a href="https://rapidapi.com/tayyabhussain12/api/qr-code-generator-api-pro" class="btn btn-outline-primary btn-sm">Start Free</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-3 text-center">
-                    <div class="performance-stat">
-                        <h3 class="display-4 text-success fw-bold">&lt;100ms</h3>
-                        <p class="h5">Response Time</p>
+
+                <!-- Starter Plan -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <div class="pricing-card card h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Starter</h5>
+                            <div class="price-display">
+                                <span class="price">$5.00</span>
+                                <span class="period">/mo</span>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Requests</strong><br>
+                                <span class="text-primary">2,000 / Month</span><br>
+                                <small class="text-success">+ $0.05 overage</small>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Rate Limit</strong><br>
+                                <span class="text-muted">2 req/sec</span>
+                            </div>
+                            <ul class="list-unstyled mt-3">
+                                <li><i class="fas fa-check text-success me-2"></i>All formats</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Custom colors</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Logo support</li>
+                            </ul>
+                            <a href="https://rapidapi.com/tayyabhussain12/api/qr-code-generator-api-pro" class="btn btn-primary btn-sm">Choose Plan</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-3 text-center">
-                    <div class="performance-stat">
-                        <h3 class="display-4 text-info fw-bold">24/7</h3>
-                        <p class="h5">Always Online</p>
+
+                <!-- Basic Plan -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <div class="pricing-card card h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Basic</h5>
+                            <div class="price-display">
+                                <span class="price">$7.00</span>
+                                <span class="period">/mo</span>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Requests</strong><br>
+                                <span class="text-primary">5,000 / Month</span><br>
+                                <small class="text-success">+ $0.03 overage</small>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Rate Limit</strong><br>
+                                <span class="text-muted">3 req/sec</span>
+                            </div>
+                            <ul class="list-unstyled mt-3">
+                                <li><i class="fas fa-check text-success me-2"></i>All features</li>
+                                <li><i class="fas fa-check text-success me-2"></i>High resolution</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Priority queue</li>
+                            </ul>
+                            <a href="https://rapidapi.com/tayyabhussain12/api/qr-code-generator-api-pro" class="btn btn-primary btn-sm">Choose Plan</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-3 text-center">
-                    <div class="performance-stat">
-                        <h3 class="display-4 text-warning fw-bold">∞</h3>
-                        <p class="h5">Scalability</p>
+
+                <!-- Pro Plan -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <div class="pricing-card card h-100 border-primary">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Pro <span class="badge bg-primary">Popular</span></h5>
+                            <div class="price-display">
+                                <span class="price">$12.99</span>
+                                <span class="period">/mo</span>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Requests</strong><br>
+                                <span class="text-primary">15,000 / Month</span><br>
+                                <small class="text-success">+ $0.02 overage</small>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Rate Limit</strong><br>
+                                <span class="text-muted">5 req/sec</span>
+                            </div>
+                            <ul class="list-unstyled mt-3">
+                                <li><i class="fas fa-check text-success me-2"></i>Everything</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Batch processing</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Email support</li>
+                            </ul>
+                            <a href="https://rapidapi.com/tayyabhussain12/api/qr-code-generator-api-pro" class="btn btn-primary btn-sm">Best Value</a>
+                        </div>
                     </div>
+                </div>
+
+                <!-- Ultra Plan -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <div class="pricing-card card h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Ultra</h5>
+                            <div class="price-display">
+                                <span class="price">$49.00</span>
+                                <span class="period">/mo</span>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Requests</strong><br>
+                                <span class="text-primary">100,000 / Month</span><br>
+                                <small class="text-success">+ $0.01 overage</small>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Rate Limit</strong><br>
+                                <span class="text-muted">10 req/sec</span>
+                            </div>
+                            <ul class="list-unstyled mt-3">
+                                <li><i class="fas fa-check text-success me-2"></i>Enterprise features</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Priority support</li>
+                                <li><i class="fas fa-check text-success me-2"></i>SLA guarantee</li>
+                            </ul>
+                            <a href="https://rapidapi.com/tayyabhussain12/api/qr-code-generator-api-pro" class="btn btn-outline-primary btn-sm">Contact Sales</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing comparison note -->
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <p class="text-muted">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Competitive pricing:</strong> Up to 40% cheaper than similar APIs. All plans include unlimited QR types, custom styling, and multiple formats.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white py-5">
+    <footer class="bg-dark text-white py-4">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <h5><i class="fas fa-qrcode me-2"></i>QR Code API Pro</h5>
-                    <p>Enterprise-grade QR code generation powered by Northflank infrastructure.</p>
-                    <p class="text-muted">Built for developers, trusted by enterprises.</p>
+                    <h5><i class="fas fa-qrcode me-2"></i>QR Code Generator API</h5>
+                    <p class="mb-0">Professional QR code generation for developers and businesses.</p>
                 </div>
-                <div class="col-md-3">
-                    <h6>API Resources</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="/docs" class="text-light text-decoration-none">Documentation</a></li>
-                        <li><a href="/health" class="text-light text-decoration-none">Health Check</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h6>Deployment</h6>
-                    <ul class="list-unstyled">
-                        <li><span class="text-muted">Powered by Northflank</span></li>
-                        <li><span class="text-muted">Global CDN</span></li>
-                        <li><span class="text-muted">Enterprise Security</span></li>
-                    </ul>
-                </div>
-            </div>
-            <hr class="my-4">
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="mb-0">&copy; 2025 QR Code API Pro. All rights reserved.</p>
-                </div>
-                <div class="col-md-6 text-end">
-                    <p class="mb-0 text-muted">Deployed with ❤️ on Northflank</p>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">Available on <strong>RapidAPI</strong></p>
+                    <div class="mt-2">
+                        <a href="{{ url_for('api_docs') }}" class="text-white me-3">API Documentation</a>
+                        <a href="https://rapidapi.com/tayyabhussain12/api/qr-code-generator-api-pro" class="text-white">Support</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -654,6 +518,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- Custom JS -->
-    <script src="/static/js/main.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

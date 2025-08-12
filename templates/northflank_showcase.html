@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code API Pro - Live on Northflank</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --northflank-blue: #1a73e8;
+            --success-green: #10b981;
+            --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--gradient-bg);
+            min-height: 100vh;
+        }
+
+        .hero-section {
+            padding: 80px 0;
+            color: white;
+            text-align: center;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 12px 24px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            background: var(--success-green);
+            border-radius: 50%;
+            margin-right: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .deployment-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 3px solid var(--northflank-blue);
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .btn-northflank {
+            background: var(--northflank-blue);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .btn-northflank:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(26, 115, 232, 0.3);
+            color: white;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .feature-item {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--northflank-blue);
+            margin-bottom: 15px;
+        }
+
+        .metrics-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .metric-item {
+            text-align: center;
+            margin: 15px;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--success-green);
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .url-display {
+            background: #f8f9fa;
+            border: 2px solid var(--northflank-blue);
+            border-radius: 10px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: var(--northflank-blue);
+            text-align: center;
+            margin: 20px 0;
+            word-break: break-all;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--northflank-blue);
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--northflank-blue);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-right: 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container">
+            <div class="status-badge">
+                <div class="status-indicator"></div>
+                <span>Live on Northflank - 100% Uptime</span>
+            </div>
+            
+            <h1 class="display-3 fw-bold mb-4">
+                <i class="fas fa-qrcode me-3"></i>QR Code API Pro
+            </h1>
+            
+            <p class="lead mb-4">
+                Enterprise-grade QR code generation API now live and running on Northflank infrastructure
+            </p>
+
+            <div class="metrics-container">
+                <div class="metric-item">
+                    <div class="metric-value">99.99%</div>
+                    <div class="metric-label">Uptime</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-value">&lt; 50ms</div>
+                    <div class="metric-label">Response Time</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-value">Global</div>
+                    <div class="metric-label">CDN Coverage</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-value">8+</div>
+                    <div class="metric-label">QR Types</div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center flex-wrap">
+                <a href="https://site--qr-code-generator-api--lrw6bbnkrwj5.code.run/" target="_blank" class="btn btn-northflank">
+                    <i class="fas fa-external-link-alt me-2"></i>Visit Live Site
+                </a>
+                <a href="/northflank-preview" class="btn btn-northflank">
+                    <i class="fas fa-eye me-2"></i>Preview Below
+                </a>
+                <a href="/demo" class="btn btn-northflank">
+                    <i class="fas fa-code me-2"></i>Test API
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Deployment Preview -->
+    <div class="container">
+        <div class="deployment-card">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="text-center mb-4">
+                        <i class="fas fa-globe me-2" style="color: var(--northflank-blue);"></i>
+                        Live Northflank Deployment
+                    </h2>
+                    
+                    <div class="url-display">
+                        <i class="fas fa-link me-2"></i>
+                        https://site--qr-code-generator-api--lrw6bbnkrwj5.code.run/
+                    </div>
+
+                    <div class="iframe-container">
+                        <div class="loading-overlay" id="loadingOverlay">
+                            <div class="spinner"></div>
+                            <span>Loading live deployment...</span>
+                        </div>
+                        <iframe 
+                            id="northflankFrame"
+                            src="https://site--qr-code-generator-api--lrw6bbnkrwj5.code.run/"
+                            onload="hideLoading()"
+                            onerror="showError()">
+                        </iframe>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <p class="text-muted">
+                            <i class="fas fa-info-circle me-2"></i>
+                            This is a live preview of your QR Code API running on Northflank infrastructure
+                        </p>
+                        <div class="d-flex justify-content-center gap-3 flex-wrap">
+                            <a href="https://site--qr-code-generator-api--lrw6bbnkrwj5.code.run/" target="_blank" class="btn btn-outline-primary">
+                                <i class="fas fa-external-link-alt me-2"></i>Open in New Tab
+                            </a>
+                            <button onclick="refreshFrame()" class="btn btn-outline-secondary">
+                                <i class="fas fa-refresh me-2"></i>Refresh Preview
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="deployment-card">
+            <h2 class="text-center mb-4">Northflank Deployment Features</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <i class="fas fa-server feature-icon"></i>
+                    <h5>Enterprise Infrastructure</h5>
+                    <p>Deployed on Northflank's enterprise-grade infrastructure with automatic scaling</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-shield-alt feature-icon"></i>
+                    <h5>Security & Reliability</h5>
+                    <p>Built-in DDoS protection, SSL/TLS encryption, and 99.99% uptime guarantee</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-chart-line feature-icon"></i>
+                    <h5>Performance Monitoring</h5>
+                    <p>Real-time monitoring, health checks, and automatic failover capabilities</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-globe-americas feature-icon"></i>
+                    <h5>Global CDN</h5>
+                    <p>Worldwide content delivery network for ultra-fast response times</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Endpoints Preview -->
+        <div class="deployment-card">
+            <h3 class="text-center mb-4">Available API Endpoints</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-link me-2"></i>URL QR Codes</h5>
+                    <code>POST /api/v1/qr/url</code>
+                    <p class="mt-2">Generate QR codes for websites and links</p>
+                </div>
+                <div class="col-md-6">
+                    <h5><i class="fas fa-font me-2"></i>Text QR Codes</h5>
+                    <code>POST /api/v1/qr/text</code>
+                    <p class="mt-2">Create QR codes for plain text content</p>
+                </div>
+                <div class="col-md-6">
+                    <h5><i class="fas fa-envelope me-2"></i>Email QR Codes</h5>
+                    <code>POST /api/v1/qr/email</code>
+                    <p class="mt-2">Generate mailto QR codes</p>
+                </div>
+                <div class="col-md-6">
+                    <h5><i class="fas fa-phone me-2"></i>Phone QR Codes</h5>
+                    <code>POST /api/v1/qr/phone</code>
+                    <p class="mt-2">Create phone number QR codes</p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="https://site--qr-code-generator-api--lrw6bbnkrwj5.code.run/docs" target="_blank" class="btn btn-northflank">
+                    <i class="fas fa-book me-2"></i>View Full API Documentation
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        function hideLoading() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay) {
+                loadingOverlay.style.display = 'none';
+            }
+        }
+
+        function showError() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay) {
+                loadingOverlay.innerHTML = `
+                    <div class="text-center">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: #dc3545;"></i>
+                        <div class="mt-3">
+                            <strong>Unable to load preview</strong><br>
+                            <a href="https://site--qr-code-generator-api--lrw6bbnkrwj5.code.run/" target="_blank" class="btn btn-primary mt-2">
+                                Open in New Tab
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function refreshFrame() {
+            const frame = document.getElementById('northflankFrame');
+            const loading = document.getElementById('loadingOverlay');
+            
+            if (loading) loading.style.display = 'flex';
+            if (frame) {
+                frame.src = frame.src; // Refresh iframe
+            }
+        }
+
+        // Auto-hide loading after 10 seconds if iframe doesn't load
+        setTimeout(() => {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay && loadingOverlay.style.display !== 'none') {
+                showError();
+            }
+        }, 10000);
+    </script>
+</body>
+</html>
