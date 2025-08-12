@@ -15,23 +15,23 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('index') }}"><i class="fas fa-qrcode me-2"></i>QR Code API Pro</a>
+            <a class="navbar-brand" href="/"><i class="fas fa-qrcode me-2"></i>QR Code API Pro</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('index') }}#demo">Demo</a>
+                        <a class="nav-link" href="/#demo">Demo</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ url_for('api_docs') }}">API Docs</a>
+                        <a class="nav-link active" href="/docs">API Docs</a>
                     </li>
                 </ul>
             </div>
