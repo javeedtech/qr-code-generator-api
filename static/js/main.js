@@ -296,10 +296,6 @@ function downloadQR() {
         // Determine MIME type and file extension
         let mimeType, fileExtension;
         switch (format.toLowerCase()) {
-            case 'jpeg':
-                mimeType = 'image/jpeg';
-                fileExtension = 'jpg';
-                break;
             case 'svg':
                 mimeType = 'image/svg+xml';
                 fileExtension = 'svg';

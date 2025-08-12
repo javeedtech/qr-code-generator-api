@@ -1,1 +1,1 @@
-web: gunicorn --bind 0.0.0.0:$PORT --reuse-port --reload main:app
+web: gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 0 main:app

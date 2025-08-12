@@ -138,7 +138,7 @@
                             <li><strong>100% Uptime:</strong> Deployed on Northflank with enterprise-grade infrastructure</li>
                             <li><strong>8 QR Code Types:</strong> URL, Text, Email, Phone, SMS, vCard, WiFi, Location</li>
                             <li><strong>Advanced Customization:</strong> Colors, shapes, error correction, sizes</li>
-                            <li><strong>Multiple Output Formats:</strong> PNG, JPEG, SVG, PDF with base64 encoding</li>
+                            <li><strong>Multiple Output Formats:</strong> PNG, SVG, PDF with base64 encoding</li>
                             <li><strong>High Performance:</strong> Global CDN, optimized response times</li>
                             <li><strong>Enterprise Security:</strong> Rate limiting, comprehensive error handling</li>
                             <li><strong>Marketplace Ready:</strong> Available on premium API marketplaces</li>
@@ -278,17 +278,7 @@
   }
 }'</code></pre>
 
-                                <h6 class="mt-3">JPEG Format Example:</h6>
-                                <pre><code class="language-bash">curl -X POST "https://site--qr-code-generator-api--lrw6bbnkrwj5.code.run/api/v1/qr/url" \
--H "Content-Type: application/json" \
--d '{
-  "url": "https://example.com",
-  "options": {
-    "format": "JPEG",
-    "foreground_color": "#ff0000",
-    "background_color": "#ffffff"
-  }
-}'</code></pre>
+
 
                                 <h6 class="mt-3">Success Response:</h6>
                                 <pre><code class="language-json">{
@@ -592,7 +582,7 @@
                                         <td><code>format</code></td>
                                         <td>String</td>
                                         <td>"PNG"</td>
-                                        <td>Output format: PNG, JPEG, SVG, PDF</td>
+                                        <td>Output format: PNG, SVG, PDF</td>
                                     </tr>
                                     <tr>
                                         <td><code>foreground_color</code></td>
