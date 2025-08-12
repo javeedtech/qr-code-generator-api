@@ -135,6 +135,9 @@ class QRCodeGenerator:
                 img = background
             img.save(buffer, format='JPEG', optimize=True, quality=85)
             mime_type = 'image/jpeg'
+        elif format_type.upper() == 'SVG':
+            # Generate SVG format
+            return self._create_svg_qr(img)
         else:
             img.save(buffer, format='PNG', optimize=True)
             mime_type = 'image/png'
@@ -142,6 +145,47 @@ class QRCodeGenerator:
         buffer.seek(0)
         img_str = base64.b64encode(buffer.read()).decode()
         return f"data:{mime_type};base64,{img_str}"
+    
+    def _create_svg_qr(self, img):
+        """Create SVG version of QR code"""
+        try:
+            width, height = img.size
+            
+            # Convert image to black/white pixels
+            img_bw = img.convert('1')  # Convert to 1-bit (black/white)
+            pixels = list(img_bw.getdata())
+            
+            # Create optimized SVG with larger modules for better performance
+            module_size = max(1, width // 50)  # Adjust based on QR size
+            svg_width = width
+            svg_height = height
+            
+            # Create SVG with proper scaling
+            svg_content = f'''<?xml version="1.0" encoding="UTF-8"?>
+<svg width="{svg_width}" height="{svg_height}" viewBox="0 0 {width} {height}" xmlns="http://www.w3.org/2000/svg">
+<rect width="{width}" height="{height}" fill="white"/>'''
+            
+            # Group adjacent black pixels into larger rectangles for efficiency
+            for y in range(0, height, module_size):
+                for x in range(0, width, module_size):
+                    # Check if this module should be black
+                    pixel_idx = min(y * width + x, len(pixels) - 1)
+                    if pixels[pixel_idx] == 0:  # Black pixel
+                        rect_width = min(module_size, width - x)
+                        rect_height = min(module_size, height - y)
+                        svg_content += f'<rect x="{x}" y="{y}" width="{rect_width}" height="{rect_height}" fill="black"/>'
+            
+            svg_content += '</svg>'
+            
+            # Encode SVG as base64
+            import base64
+            svg_b64 = base64.b64encode(svg_content.encode('utf-8')).decode()
+            return f"data:image/svg+xml;base64,{svg_b64}"
+            
+        except Exception as e:
+            logging.warning(f"SVG generation failed, falling back to PNG: {e}")
+            # Fallback to PNG
+            return self._image_to_base64(img, 'PNG')
     
     def _create_pdf(self, img, content):
         """Create PDF with QR code"""

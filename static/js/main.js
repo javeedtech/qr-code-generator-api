@@ -139,40 +139,56 @@ function buildRequestData(type) {
         format: 'PNG',
         foreground_color: '#000000',
         background_color: '#FFFFFF',
-        error_correction: 'M'
+        error_correction: 'M',
+        module_drawer: 'square'
     };
     
     let requestData = { options: baseOptions };
     
+    // Get common options for each type
+    function getTypeOptions(prefix) {
+        const sizeEl = document.getElementById(prefix + 'Size');
+        const formatEl = document.getElementById(prefix + 'Format');
+        const shapeEl = document.getElementById(prefix + 'Shape');
+        const errorCorrectionEl = document.getElementById(prefix + 'ErrorCorrection');
+        const foregroundEl = document.getElementById(prefix + 'ForegroundColor');
+        const backgroundEl = document.getElementById(prefix + 'BackgroundColor');
+        
+        const options = {};
+        if (sizeEl) options.size = parseInt(sizeEl.value) || 10;
+        if (formatEl) options.format = formatEl.value || 'PNG';
+        if (shapeEl) options.module_drawer = shapeEl.value || 'square';
+        if (errorCorrectionEl) options.error_correction = errorCorrectionEl.value || 'M';
+        if (foregroundEl) options.foreground_color = foregroundEl.value || '#000000';
+        if (backgroundEl) options.background_color = backgroundEl.value || '#FFFFFF';
+        
+        return options;
+    }
+    
     switch (type) {
         case 'url':
             requestData.url = document.getElementById('urlInput').value || 'https://northflank.com';
-            requestData.options.size = parseInt(document.getElementById('urlSize').value) || 10;
-            const urlForegroundColor = document.getElementById('urlForegroundColor');
-            if (urlForegroundColor) {
-                requestData.options.foreground_color = urlForegroundColor.value;
-            }
+            Object.assign(requestData.options, getTypeOptions('url'));
             break;
         case 'text':
             requestData.text = document.getElementById('textInput').value || 'Northflank QR API';
-            requestData.options.size = parseInt(document.getElementById('textSize').value) || 10;
-            const textForegroundColor = document.getElementById('textForegroundColor');
-            if (textForegroundColor) {
-                requestData.options.foreground_color = textForegroundColor.value;
-            }
+            Object.assign(requestData.options, getTypeOptions('text'));
             break;
         case 'email':
             requestData.email = document.getElementById('emailInput').value || 'api@northflank.com';
             requestData.subject = document.getElementById('emailSubject').value || 'API Inquiry';
             requestData.message = document.getElementById('emailMessage').value || 'Hello from Northflank!';
+            // Email uses default options for now, can be enhanced
             break;
         case 'phone':
             requestData.phone = document.getElementById('phoneInput').value || '+1234567890';
+            // Phone uses default options for now, can be enhanced
             break;
         case 'wifi':
             requestData.ssid = document.getElementById('wifiSSID').value || 'NorthflankWiFi';
             requestData.password = document.getElementById('wifiPassword').value || 'secure123';
             requestData.encryption = document.getElementById('wifiSecurity').value || 'WPA';
+            // WiFi uses default options for now, can be enhanced
             break;
     }
     
@@ -241,13 +257,53 @@ function showError(message) {
 
 // Download QR code
 function downloadQR() {
-    if (currentQRData) {
+    if (currentQRData && currentQRData.data) {
+        const format = currentQRData.data.format || 'PNG';
+        const base64Data = currentQRData.data.qr_code;
+        
+        // Extract the actual base64 data (remove data:image/format;base64, prefix)
+        const base64Content = base64Data.split(',')[1];
+        
+        // Convert base64 to blob
+        const byteCharacters = atob(base64Content);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        
+        // Determine MIME type and file extension
+        let mimeType, fileExtension;
+        switch (format.toLowerCase()) {
+            case 'jpeg':
+                mimeType = 'image/jpeg';
+                fileExtension = 'jpg';
+                break;
+            case 'svg':
+                mimeType = 'image/svg+xml';
+                fileExtension = 'svg';
+                break;
+            case 'pdf':
+                mimeType = 'application/pdf';
+                fileExtension = 'pdf';
+                break;
+            default:
+                mimeType = 'image/png';
+                fileExtension = 'png';
+        }
+        
+        const blob = new Blob([byteArray], { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        
         const link = document.createElement('a');
-        link.download = `qr-code-${Date.now()}.png`;
-        link.href = currentQRData.data.qr_code;
+        link.href = url;
+        link.download = `qr-code-${Date.now()}.${fileExtension}`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    } else {
+        alert('No QR code to download. Please generate a QR code first.');
     }
 }
 
