@@ -24,7 +24,7 @@ qr_gen = QRCodeGenerator()
 @app.route('/')
 def index():
     """Northflank deployment frontend"""
-    return render_template('northflank_index.html')
+    return render_template('index.html')
 
 @app.route('/health')
 def health_check():
@@ -39,7 +39,7 @@ def health_check():
 @app.route('/docs')
 def api_docs():
     """API documentation page"""
-    return render_template('northflank_api_docs.html')
+    return render_template('api_docs.html')
 
 @app.route('/download')
 def download_page():
@@ -82,73 +82,67 @@ def northflank_preview():
         response = requests.get('https://site--qr-code-generator-api--lrw6bbnkrwj5.code.run/')
         return response.text
     except Exception as e:
-        return f"<h1>Error loading Northflank frontend</h1><p>{str(e)}</p><p><a href='https://site--qr-code-generator-api--lrw6bbnkrwj5.code.run/'>Visit Northflank site directly</a></p>"
+        return f"Could not fetch Northflank deployment: {str(e)}"
 
-@app.route('/northflank-live')
-def northflank_live():
-    """Redirect to live Northflank deployment"""
-    from flask import redirect
-    return redirect('https://site--qr-code-generator-api--lrw6bbnkrwj5.code.run/', code=302)
+# === QR Code Generation Endpoints ===
 
 @app.route('/api/v1/qr/url', methods=['POST'])
 def generate_url_qr():
     """Generate QR code for URL"""
     try:
         data = request.get_json()
-        
-        # Validate required fields
         if not data or 'url' not in data:
             return jsonify({'error': 'URL is required'}), 400
         
-        # Extract parameters
         url = data['url']
         options = data.get('options', {})
         
         # Generate QR code
-        result = qr_gen.generate_url_qr(url, options)
+        qr_data = qr_gen.generate_url_qr(url, options)
         
         # Add rate limiting headers for RapidAPI
-        response = jsonify(result)
-        response.headers['X-RateLimit-Limit'] = '1000'
+        response = jsonify(qr_data)
         response.headers['X-RateLimit-Remaining'] = '999'
+        response.headers['X-RateLimit-Limit'] = '1000'
         
         return response
         
     except Exception as e:
-        logging.error(f"Error generating URL QR code: {str(e)}")
+        logging.error(f"Error generating URL QR: {str(e)}")
         logging.error(traceback.format_exc())
-        return jsonify({'error': f'Failed to generate QR code: {str(e)}'}), 500
+        return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/v1/qr/text', methods=['POST'])
 def generate_text_qr():
-    """Generate QR code for plain text"""
+    """Generate QR code for text"""
     try:
         data = request.get_json()
-        
         if not data or 'text' not in data:
             return jsonify({'error': 'Text is required'}), 400
         
         text = data['text']
         options = data.get('options', {})
         
-        result = qr_gen.generate_text_qr(text, options)
+        # Generate QR code
+        qr_data = qr_gen.generate_text_qr(text, options)
         
-        response = jsonify(result)
-        response.headers['X-RateLimit-Limit'] = '1000'
+        # Add rate limiting headers for RapidAPI
+        response = jsonify(qr_data)
         response.headers['X-RateLimit-Remaining'] = '999'
+        response.headers['X-RateLimit-Limit'] = '1000'
         
         return response
         
     except Exception as e:
-        logging.error(f"Error generating text QR code: {str(e)}")
-        return jsonify({'error': f'Failed to generate QR code: {str(e)}'}), 500
+        logging.error(f"Error generating text QR: {str(e)}")
+        logging.error(traceback.format_exc())
+        return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/v1/qr/email', methods=['POST'])
 def generate_email_qr():
     """Generate QR code for email"""
     try:
         data = request.get_json()
-        
         if not data or 'email' not in data:
             return jsonify({'error': 'Email is required'}), 400
         
@@ -157,48 +151,52 @@ def generate_email_qr():
         message = data.get('message', '')
         options = data.get('options', {})
         
-        result = qr_gen.generate_email_qr(email, subject, message, options)
+        # Generate QR code
+        qr_data = qr_gen.generate_email_qr(email, subject, message, options)
         
-        response = jsonify(result)
-        response.headers['X-RateLimit-Limit'] = '1000'
+        # Add rate limiting headers for RapidAPI
+        response = jsonify(qr_data)
         response.headers['X-RateLimit-Remaining'] = '999'
+        response.headers['X-RateLimit-Limit'] = '1000'
         
         return response
         
     except Exception as e:
-        logging.error(f"Error generating email QR code: {str(e)}")
-        return jsonify({'error': f'Failed to generate QR code: {str(e)}'}), 500
+        logging.error(f"Error generating email QR: {str(e)}")
+        logging.error(traceback.format_exc())
+        return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/v1/qr/phone', methods=['POST'])
 def generate_phone_qr():
-    """Generate QR code for phone number"""
+    """Generate QR code for phone"""
     try:
         data = request.get_json()
-        
         if not data or 'phone' not in data:
             return jsonify({'error': 'Phone number is required'}), 400
         
         phone = data['phone']
         options = data.get('options', {})
         
-        result = qr_gen.generate_phone_qr(phone, options)
+        # Generate QR code
+        qr_data = qr_gen.generate_phone_qr(phone, options)
         
-        response = jsonify(result)
-        response.headers['X-RateLimit-Limit'] = '1000'
+        # Add rate limiting headers for RapidAPI
+        response = jsonify(qr_data)
         response.headers['X-RateLimit-Remaining'] = '999'
+        response.headers['X-RateLimit-Limit'] = '1000'
         
         return response
         
     except Exception as e:
-        logging.error(f"Error generating phone QR code: {str(e)}")
-        return jsonify({'error': f'Failed to generate QR code: {str(e)}'}), 500
+        logging.error(f"Error generating phone QR: {str(e)}")
+        logging.error(traceback.format_exc())
+        return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/v1/qr/sms', methods=['POST'])
 def generate_sms_qr():
     """Generate QR code for SMS"""
     try:
         data = request.get_json()
-        
         if not data or 'phone' not in data:
             return jsonify({'error': 'Phone number is required'}), 400
         
@@ -206,88 +204,93 @@ def generate_sms_qr():
         message = data.get('message', '')
         options = data.get('options', {})
         
-        result = qr_gen.generate_sms_qr(phone, message, options)
+        # Generate QR code
+        qr_data = qr_gen.generate_sms_qr(phone, message, options)
         
-        response = jsonify(result)
-        response.headers['X-RateLimit-Limit'] = '1000'
+        # Add rate limiting headers for RapidAPI
+        response = jsonify(qr_data)
         response.headers['X-RateLimit-Remaining'] = '999'
+        response.headers['X-RateLimit-Limit'] = '1000'
         
         return response
         
     except Exception as e:
-        logging.error(f"Error generating SMS QR code: {str(e)}")
-        return jsonify({'error': f'Failed to generate QR code: {str(e)}'}), 500
-
-@app.route('/api/v1/qr/vcard', methods=['POST'])
-def generate_vcard_qr():
-    """Generate QR code for vCard contact"""
-    try:
-        data = request.get_json()
-        
-        if not data:
-            return jsonify({'error': 'vCard data is required'}), 400
-        
-        vcard_data = {
-            'first_name': data.get('first_name', ''),
-            'last_name': data.get('last_name', ''),
-            'organization': data.get('organization', ''),
-            'phone_work': data.get('phone_work', ''),
-            'phone_mobile': data.get('phone_mobile', ''),
-            'email': data.get('email', ''),
-            'website': data.get('website', ''),
-            'street': data.get('street', ''),
-            'city': data.get('city', ''),
-            'state': data.get('state', ''),
-            'zipcode': data.get('zipcode', ''),
-            'country': data.get('country', '')
-        }
-        
-        options = data.get('options', {})
-        
-        result = qr_gen.generate_vcard_qr(vcard_data, options)
-        
-        response = jsonify(result)
-        response.headers['X-RateLimit-Limit'] = '1000'
-        response.headers['X-RateLimit-Remaining'] = '999'
-        
-        return response
-        
-    except Exception as e:
-        logging.error(f"Error generating vCard QR code: {str(e)}")
-        return jsonify({'error': f'Failed to generate QR code: {str(e)}'}), 500
+        logging.error(f"Error generating SMS QR: {str(e)}")
+        logging.error(traceback.format_exc())
+        return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/v1/qr/wifi', methods=['POST'])
 def generate_wifi_qr():
-    """Generate QR code for WiFi connection"""
+    """Generate QR code for WiFi"""
     try:
         data = request.get_json()
-        
         if not data or 'ssid' not in data:
             return jsonify({'error': 'SSID is required'}), 400
         
         ssid = data['ssid']
         password = data.get('password', '')
-        encryption = data.get('encryption', 'WPA')  # WPA, WEP, or nopass
+        encryption = data.get('encryption', 'WPA')
+        hidden = data.get('hidden', False)
         options = data.get('options', {})
         
-        result = qr_gen.generate_wifi_qr(ssid, password, encryption, options)
+        # Generate QR code
+        qr_data = qr_gen.generate_wifi_qr(ssid, password, encryption, hidden, options)
         
-        response = jsonify(result)
-        response.headers['X-RateLimit-Limit'] = '1000'
+        # Add rate limiting headers for RapidAPI
+        response = jsonify(qr_data)
         response.headers['X-RateLimit-Remaining'] = '999'
+        response.headers['X-RateLimit-Limit'] = '1000'
         
         return response
         
     except Exception as e:
-        logging.error(f"Error generating WiFi QR code: {str(e)}")
-        return jsonify({'error': f'Failed to generate QR code: {str(e)}'}), 500
+        logging.error(f"Error generating WiFi QR: {str(e)}")
+        logging.error(traceback.format_exc())
+        return jsonify({'error': 'Internal server error'}), 500
+
+@app.route('/api/v1/qr/vcard', methods=['POST'])
+def generate_vcard_qr():
+    """Generate QR code for vCard"""
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'vCard data is required'}), 400
+        
+        # Extract vCard fields
+        first_name = data.get('first_name', '')
+        last_name = data.get('last_name', '')
+        organization = data.get('organization', '')
+        title = data.get('title', '')
+        email = data.get('email', '')
+        phone_work = data.get('phone_work', '')
+        phone_mobile = data.get('phone_mobile', '')
+        website = data.get('website', '')
+        address = data.get('address', '')
+        options = data.get('options', {})
+        
+        # Generate QR code
+        qr_data = qr_gen.generate_vcard_qr(
+            first_name, last_name, organization, title, 
+            email, phone_work, phone_mobile, website, address, options
+        )
+        
+        # Add rate limiting headers for RapidAPI
+        response = jsonify(qr_data)
+        response.headers['X-RateLimit-Remaining'] = '999'
+        response.headers['X-RateLimit-Limit'] = '1000'
+        
+        return response
+        
+    except Exception as e:
+        logging.error(f"Error generating vCard QR: {str(e)}")
+        logging.error(traceback.format_exc())
+        return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/v1/qr/location', methods=['POST'])
 def generate_location_qr():
-    """Generate QR code for location coordinates"""
+    """Generate QR code for location"""
     try:
         data = request.get_json()
-        
         if not data or 'latitude' not in data or 'longitude' not in data:
             return jsonify({'error': 'Latitude and longitude are required'}), 400
         
@@ -295,25 +298,20 @@ def generate_location_qr():
         longitude = data['longitude']
         options = data.get('options', {})
         
-        result = qr_gen.generate_location_qr(latitude, longitude, options)
+        # Generate QR code
+        qr_data = qr_gen.generate_location_qr(latitude, longitude, options)
         
-        response = jsonify(result)
-        response.headers['X-RateLimit-Limit'] = '1000'
+        # Add rate limiting headers for RapidAPI
+        response = jsonify(qr_data)
         response.headers['X-RateLimit-Remaining'] = '999'
+        response.headers['X-RateLimit-Limit'] = '1000'
         
         return response
         
     except Exception as e:
-        logging.error(f"Error generating location QR code: {str(e)}")
-        return jsonify({'error': f'Failed to generate QR code: {str(e)}'}), 500
-
-@app.errorhandler(404)
-def not_found(error):
-    return jsonify({'error': 'Endpoint not found'}), 404
-
-@app.errorhandler(500)
-def internal_error(error):
-    return jsonify({'error': 'Internal server error'}), 500
+        logging.error(f"Error generating location QR: {str(e)}")
+        logging.error(traceback.format_exc())
+        return jsonify({'error': 'Internal server error'}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)
