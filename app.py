@@ -3,7 +3,7 @@ import logging
 from flask import Flask, request, jsonify, render_template, send_file
 from flask_cors import CORS
 from qr_generator import QRCodeGenerator
-from keep_alive import start_keep_alive
+
 import json
 import traceback
 import atexit
@@ -19,10 +19,7 @@ CORS(app)
 # Initialize QR Code Generator
 qr_gen = QRCodeGenerator()
 
-# Start keep-alive service only in production (Render environment)
-if os.environ.get('RENDER'):
-    start_keep_alive()
-    logging.info("Keep-alive service started for Render deployment")
+# Keep-alive functionality removed for Northflank deployment
 
 @app.route('/')
 def index():
@@ -59,6 +56,12 @@ def download_archive():
 def download_northflank_page():
     """Download page for Northflank deployment package"""
     with open('download-northflank.html', 'r') as f:
+        return f.read()
+
+@app.route('/download-updated')
+def download_updated_page():
+    """Download page for updated QR API files"""
+    with open('download-updated.html', 'r') as f:
         return f.read()
 
 @app.route('/northflank-qr-api-updated.zip')
