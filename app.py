@@ -66,8 +66,12 @@ def download_northflank_updated():
 @app.route('/download-updated')
 def download_updated_page():
     """Download page for updated QR API files"""
-    with open('download-updated.html', 'r') as f:
-        return f.read()
+    return render_template('download_updated_github.html')
+
+@app.route('/download-github')
+def download_github_page():
+    """Download page for GitHub ready package"""
+    return render_template('download_updated_github.html')
 
 @app.route('/preview-frontend')
 def preview_frontend():
