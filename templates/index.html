@@ -210,7 +210,7 @@
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="vcard-tab" data-bs-toggle="tab" data-bs-target="#vcard" type="button" role="tab">
-                                        <i class="fas fa-address-card me-1"></i>vCard
+                                        <i class="fas fa-id-card me-1"></i>vCard
                                     </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
@@ -245,16 +245,6 @@
                                         </div>
                                         <div class="col-md-2">
                                             <div class="mb-3">
-                                                <label class="form-label">Border</label>
-                                                <select class="form-select" id="urlBorder">
-                                                    <option value="2">Thin (2)</option>
-                                                    <option value="4" selected>Medium (4)</option>
-                                                    <option value="6">Thick (6)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
                                                 <label class="form-label">Format</label>
                                                 <select class="form-select" id="urlFormat">
                                                     <option value="PNG" selected>PNG</option>
@@ -267,7 +257,7 @@
                                         <div class="col-md-2">
                                             <div class="mb-3">
                                                 <label class="form-label">Shape</label>
-                                                <select class="form-select" id="urlModuleDrawer">
+                                                <select class="form-select" id="urlShape">
                                                     <option value="square" selected>Square</option>
                                                     <option value="rounded">Rounded</option>
                                                     <option value="circle">Circle</option>
@@ -327,16 +317,6 @@
                                         </div>
                                         <div class="col-md-2">
                                             <div class="mb-3">
-                                                <label class="form-label">Border</label>
-                                                <select class="form-select" id="textBorder">
-                                                    <option value="2">Thin (2)</option>
-                                                    <option value="4" selected>Medium (4)</option>
-                                                    <option value="6">Thick (6)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
                                                 <label class="form-label">Format</label>
                                                 <select class="form-select" id="textFormat">
                                                     <option value="PNG" selected>PNG</option>
@@ -349,7 +329,7 @@
                                         <div class="col-md-2">
                                             <div class="mb-3">
                                                 <label class="form-label">Shape</label>
-                                                <select class="form-select" id="textModuleDrawer">
+                                                <select class="form-select" id="textShape">
                                                     <option value="square" selected>Square</option>
                                                     <option value="rounded">Rounded</option>
                                                     <option value="circle">Circle</option>
@@ -407,77 +387,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <!-- Email Customization Options -->
-                                    <div class="row mt-3">
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Size</label>
-                                                <select class="form-select" id="emailSize">
-                                                    <option value="8">Small (8)</option>
-                                                    <option value="10" selected>Medium (10)</option>
-                                                    <option value="12">Large (12)</option>
-                                                    <option value="15">Extra Large (15)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Border</label>
-                                                <select class="form-select" id="emailBorder">
-                                                    <option value="2">Thin (2)</option>
-                                                    <option value="4" selected>Medium (4)</option>
-                                                    <option value="6">Thick (6)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Format</label>
-                                                <select class="form-select" id="emailFormat">
-                                                    <option value="PNG" selected>PNG</option>
-                                                    <option value="SVG">SVG</option>
-                                                    <option value="PDF">PDF</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Shape</label>
-                                                <select class="form-select" id="emailModuleDrawer">
-                                                    <option value="square" selected>Square</option>
-                                                    <option value="rounded">Rounded</option>
-                                                    <option value="circle">Circle</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Error Correction</label>
-                                                <select class="form-select" id="emailErrorCorrection">
-                                                    <option value="L">Low (L)</option>
-                                                    <option value="M" selected>Medium (M)</option>
-                                                    <option value="Q">Quartile (Q)</option>
-                                                    <option value="H">High (H)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Foreground</label>
-                                                <input type="color" class="form-control form-control-color" id="emailForegroundColor" value="#000000">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Background</label>
-                                                <input type="color" class="form-control form-control-color" id="emailBackgroundColor" value="#FFFFFF">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
                                     <button type="button" class="btn btn-primary" onclick="generateQR('email')">
                                         <i class="fas fa-qrcode me-2"></i>Generate Email QR Code
                                     </button>
@@ -493,77 +402,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <!-- Phone Customization Options -->
-                                    <div class="row mt-3">
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Size</label>
-                                                <select class="form-select" id="phoneSize">
-                                                    <option value="8">Small (8)</option>
-                                                    <option value="10" selected>Medium (10)</option>
-                                                    <option value="12">Large (12)</option>
-                                                    <option value="15">Extra Large (15)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Border</label>
-                                                <select class="form-select" id="phoneBorder">
-                                                    <option value="2">Thin (2)</option>
-                                                    <option value="4" selected>Medium (4)</option>
-                                                    <option value="6">Thick (6)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Format</label>
-                                                <select class="form-select" id="phoneFormat">
-                                                    <option value="PNG" selected>PNG</option>
-                                                    <option value="SVG">SVG</option>
-                                                    <option value="PDF">PDF</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Shape</label>
-                                                <select class="form-select" id="phoneModuleDrawer">
-                                                    <option value="square" selected>Square</option>
-                                                    <option value="rounded">Rounded</option>
-                                                    <option value="circle">Circle</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Error Correction</label>
-                                                <select class="form-select" id="phoneErrorCorrection">
-                                                    <option value="L">Low (L)</option>
-                                                    <option value="M" selected>Medium (M)</option>
-                                                    <option value="Q">Quartile (Q)</option>
-                                                    <option value="H">High (H)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Foreground</label>
-                                                <input type="color" class="form-control form-control-color" id="phoneForegroundColor" value="#000000">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Background</label>
-                                                <input type="color" class="form-control form-control-color" id="phoneBackgroundColor" value="#FFFFFF">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
                                     <button type="button" class="btn btn-primary" onclick="generateQR('phone')">
                                         <i class="fas fa-qrcode me-2"></i>Generate Phone QR Code
                                     </button>
@@ -575,13 +413,13 @@
                                         <div class="col-md-4">
                                             <div class="mb-3">
                                                 <label class="form-label">Network Name (SSID)</label>
-                                                <input type="text" class="form-control" id="wifiSSID" placeholder="MyWiFi">
+                                                <input type="text" class="form-control" id="wifiSSID" placeholder="MyWiFi" value="NorthflankWiFi">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="mb-3">
                                                 <label class="form-label">Password</label>
-                                                <input type="password" class="form-control" id="wifiPassword" placeholder="password123">
+                                                <input type="password" class="form-control" id="wifiPassword" placeholder="password123" value="secure123">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -595,77 +433,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <!-- WiFi Customization Options -->
-                                    <div class="row mt-3">
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Size</label>
-                                                <select class="form-select" id="wifiSize">
-                                                    <option value="8">Small (8)</option>
-                                                    <option value="10" selected>Medium (10)</option>
-                                                    <option value="12">Large (12)</option>
-                                                    <option value="15">Extra Large (15)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Border</label>
-                                                <select class="form-select" id="wifiBorder">
-                                                    <option value="2">Thin (2)</option>
-                                                    <option value="4" selected>Medium (4)</option>
-                                                    <option value="6">Thick (6)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Format</label>
-                                                <select class="form-select" id="wifiFormat">
-                                                    <option value="PNG" selected>PNG</option>
-                                                    <option value="SVG">SVG</option>
-                                                    <option value="PDF">PDF</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Shape</label>
-                                                <select class="form-select" id="wifiModuleDrawer">
-                                                    <option value="square" selected>Square</option>
-                                                    <option value="rounded">Rounded</option>
-                                                    <option value="circle">Circle</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Error Correction</label>
-                                                <select class="form-select" id="wifiErrorCorrection">
-                                                    <option value="L">Low (L)</option>
-                                                    <option value="M" selected>Medium (M)</option>
-                                                    <option value="Q">Quartile (Q)</option>
-                                                    <option value="H">High (H)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Foreground</label>
-                                                <input type="color" class="form-control form-control-color" id="wifiForegroundColor" value="#000000">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Background</label>
-                                                <input type="color" class="form-control form-control-color" id="wifiBackgroundColor" value="#FFFFFF">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
                                     <button type="button" class="btn btn-primary" onclick="generateQR('wifi')">
                                         <i class="fas fa-qrcode me-2"></i>Generate WiFi QR Code
                                     </button>
@@ -683,79 +450,10 @@
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="form-label">Message</label>
-                                                <input type="text" class="form-control" id="smsMessage" placeholder="Your SMS message" value="Hello from Northflank API!">
+                                                <input type="text" class="form-control" id="smsMessage" placeholder="Text message" value="Hello from Northflank API!">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Size</label>
-                                                <select class="form-select" id="smsSize">
-                                                    <option value="8">Small (8)</option>
-                                                    <option value="10" selected>Medium (10)</option>
-                                                    <option value="15">Large (15)</option>
-                                                    <option value="20">X-Large (20)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Border</label>
-                                                <select class="form-select" id="smsBorder">
-                                                    <option value="2">Thin (2)</option>
-                                                    <option value="4" selected>Medium (4)</option>
-                                                    <option value="6">Thick (6)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Format</label>
-                                                <select class="form-select" id="smsFormat">
-                                                    <option value="PNG" selected>PNG</option>
-                                                    <option value="SVG">SVG</option>
-                                                    <option value="PDF">PDF</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Shape</label>
-                                                <select class="form-select" id="smsModuleDrawer">
-                                                    <option value="square" selected>Square</option>
-                                                    <option value="rounded">Rounded</option>
-                                                    <option value="circle">Circle</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Error Correction</label>
-                                                <select class="form-select" id="smsErrorCorrection">
-                                                    <option value="L">Low (L)</option>
-                                                    <option value="M" selected>Medium (M)</option>
-                                                    <option value="Q">Quartile (Q)</option>
-                                                    <option value="H">High (H)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Foreground</label>
-                                                <input type="color" class="form-control form-control-color" id="smsForegroundColor" value="#000000">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Background</label>
-                                                <input type="color" class="form-control form-control-color" id="smsBackgroundColor" value="#FFFFFF">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
                                     <button type="button" class="btn btn-primary" onclick="generateQR('sms')">
                                         <i class="fas fa-qrcode me-2"></i>Generate SMS QR Code
                                     </button>
@@ -763,6 +461,7 @@
 
                                 <!-- vCard Tab -->
                                 <div class="tab-pane fade" id="vcard" role="tabpanel">
+                                    <h5>Contact vCard</h5>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
@@ -778,102 +477,33 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Organization</label>
-                                                <input type="text" class="form-control" id="vcardOrganization" placeholder="Northflank Inc." value="Northflank Inc.">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Email</label>
-                                                <input type="email" class="form-control" id="vcardEmail" placeholder="john@example.com" value="john@northflank.com">
+                                                <input type="text" class="form-control" id="vcardOrganization" placeholder="Company Name" value="Northflank Inc.">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label class="form-label">Email</label>
+                                                <input type="email" class="form-control" id="vcardEmail" placeholder="john@company.com" value="john@northflank.com">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
                                             <div class="mb-3">
                                                 <label class="form-label">Work Phone</label>
                                                 <input type="tel" class="form-control" id="vcardPhoneWork" placeholder="+1234567890" value="+1234567890">
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="mb-3">
                                                 <label class="form-label">Mobile Phone</label>
                                                 <input type="tel" class="form-control" id="vcardPhoneMobile" placeholder="+1987654321" value="+1987654321">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Size</label>
-                                                <select class="form-select" id="vcardSize">
-                                                    <option value="8">Small (8)</option>
-                                                    <option value="10" selected>Medium (10)</option>
-                                                    <option value="15">Large (15)</option>
-                                                    <option value="20">X-Large (20)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Border</label>
-                                                <select class="form-select" id="vcardBorder">
-                                                    <option value="2">Thin (2)</option>
-                                                    <option value="4" selected>Medium (4)</option>
-                                                    <option value="6">Thick (6)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Format</label>
-                                                <select class="form-select" id="vcardFormat">
-                                                    <option value="PNG" selected>PNG</option>
-                                                    <option value="SVG">SVG</option>
-                                                    <option value="PDF">PDF</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Shape</label>
-                                                <select class="form-select" id="vcardModuleDrawer">
-                                                    <option value="square" selected>Square</option>
-                                                    <option value="rounded">Rounded</option>
-                                                    <option value="circle">Circle</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Error Correction</label>
-                                                <select class="form-select" id="vcardErrorCorrection">
-                                                    <option value="L">Low (L)</option>
-                                                    <option value="M" selected>Medium (M)</option>
-                                                    <option value="Q">Quartile (Q)</option>
-                                                    <option value="H">High (H)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Foreground</label>
-                                                <input type="color" class="form-control form-control-color" id="vcardForegroundColor" value="#000000">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Background</label>
-                                                <input type="color" class="form-control form-control-color" id="vcardBackgroundColor" value="#FFFFFF">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
                                     <button type="button" class="btn btn-primary" onclick="generateQR('vcard')">
                                         <i class="fas fa-qrcode me-2"></i>Generate vCard QR Code
                                     </button>
@@ -896,74 +526,13 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-2">
+                                        <div class="col-md-12">
                                             <div class="mb-3">
-                                                <label class="form-label">Size</label>
-                                                <select class="form-select" id="locationSize">
-                                                    <option value="8">Small (8)</option>
-                                                    <option value="10" selected>Medium (10)</option>
-                                                    <option value="15">Large (15)</option>
-                                                    <option value="20">X-Large (20)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Border</label>
-                                                <select class="form-select" id="locationBorder">
-                                                    <option value="2">Thin (2)</option>
-                                                    <option value="4" selected>Medium (4)</option>
-                                                    <option value="6">Thick (6)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Format</label>
-                                                <select class="form-select" id="locationFormat">
-                                                    <option value="PNG" selected>PNG</option>
-                                                    <option value="SVG">SVG</option>
-                                                    <option value="PDF">PDF</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Shape</label>
-                                                <select class="form-select" id="locationModuleDrawer">
-                                                    <option value="square" selected>Square</option>
-                                                    <option value="rounded">Rounded</option>
-                                                    <option value="circle">Circle</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Error Correction</label>
-                                                <select class="form-select" id="locationErrorCorrection">
-                                                    <option value="L">Low (L)</option>
-                                                    <option value="M" selected>Medium (M)</option>
-                                                    <option value="Q">Quartile (Q)</option>
-                                                    <option value="H">High (H)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Foreground</label>
-                                                <input type="color" class="form-control form-control-color" id="locationForegroundColor" value="#000000">
+                                                <label class="form-label">Location Name (Optional)</label>
+                                                <input type="text" class="form-control" id="locationName" placeholder="New York City" value="Northflank HQ">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <div class="mb-3">
-                                                <label class="form-label">Background</label>
-                                                <input type="color" class="form-control form-control-color" id="locationBackgroundColor" value="#FFFFFF">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
                                     <button type="button" class="btn btn-primary" onclick="generateQR('location')">
                                         <i class="fas fa-qrcode me-2"></i>Generate Location QR Code
                                     </button>
@@ -1061,11 +630,11 @@
                     </ul>
                 </div>
                 <div class="col-md-3">
-                    <h6>Features</h6>
+                    <h6>Deployment</h6>
                     <ul class="list-unstyled">
-                        <li><span class="text-muted">Multiple Formats</span></li>
-                        <li><span class="text-muted">Custom Colors</span></li>
-                        <li><span class="text-muted">8 QR Types</span></li>
+                        <li><span class="text-muted">Powered by Northflank</span></li>
+                        <li><span class="text-muted">Global CDN</span></li>
+                        <li><span class="text-muted">Enterprise Security</span></li>
                     </ul>
                 </div>
             </div>
@@ -1075,7 +644,7 @@
                     <p class="mb-0">&copy; 2025 QR Code API Pro. All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-end">
-                    <p class="mb-0 text-muted">Enterprise QR Code API</p>
+                    <p class="mb-0 text-muted">Deployed with ❤️ on Northflank</p>
                 </div>
             </div>
         </div>
